@@ -22,6 +22,19 @@ void initializeColor() {
     COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
 }
 
+
+void initializeChaosColor() {
+    COLOR[0] = {0, 0, 0, 255}; 
+    COLOR[PIECE_T] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[PIECE_O] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[PIECE_J] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[PIECE_L] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[PIECE_S] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[PIECE_Z] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[PIECE_I] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+    COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
+}
+
 bool isOccupied(int x, int y) {
     return state[x][y] > 0 && state[x][y] < 8;
 }
@@ -521,6 +534,7 @@ bool checkPiece(int piece, int x, int y, int direction) {
         fillable = checkI(x, y, direction);
         return fillable;
     }
+    return false;
 }
 
 void paintT(int x, int y, float blockSize) {
@@ -577,7 +591,17 @@ void paintPiece(int piece, int x, int y, float blockSize) {
     if (piece == PIECE_S) paintS(x, y, blockSize);
     if (piece == PIECE_Z) paintZ(x, y, blockSize);
     if (piece == PIECE_I) paintI(x, y, blockSize);
-	
+}
+
+void paintPieceGray(int piece, int x, int y, float blockSize) {
+    SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+    if (piece == PIECE_T) paintT(x, y, blockSize);
+    if (piece == PIECE_O) paintO(x, y, blockSize);
+    if (piece == PIECE_J) paintJ(x, y, blockSize);
+    if (piece == PIECE_L) paintL(x, y, blockSize);
+    if (piece == PIECE_S) paintS(x, y, blockSize);
+    if (piece == PIECE_Z) paintZ(x, y, blockSize);
+    if (piece == PIECE_I) paintI(x, y, blockSize);
 }
 
 #endif

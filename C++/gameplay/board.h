@@ -1,18 +1,16 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include<bits/stdc++.h>
-#include<SDL3/SDL.h>
-#include<SDL3/SDL_main.h>
+#include <bits/stdc++.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 #include "../const/data.h"
 // #include "piece.h"
 using namespace std;
 
-int ROW = 20;
-int COL = 10;
 int state[40][40];
 int droppingSpeed = DROPPING_SPEED;
-int QUEUE_SIZE = 5;
+int gameMode = 0;
 float boardCoordinateX, boardCoordinateY;
 bool gameOver = false;
 
@@ -21,7 +19,7 @@ int currentDroppingFrame = 0, cap = droppingSpeed;
 int isMoved = MOVING_DETECTION_BY_FRAME;
 int spawnTime = FPS / 10;
 int holdingPiece = 0;
-bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true;
+bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
 
 void initializeBoard(int row, int col, int queueSize) {
     ROW = row;

@@ -2,90 +2,108 @@
 #define BUTTON_H
 
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <bits/stdc++.h>
+#include "../gameplay/board.h"
 using namespace std;
 
 struct Button {
     SDL_FRect rect;
-    SDL_Color normalColor;
+    SDL_Color textColor;
+    SDL_Color bgColor;
     SDL_Color hoverColor;
-    SDL_Color clickColor;
-    SDL_Color currentColor;
-    bool isClicked;
+    SDL_Texture* texture;
+    SDL_Surface* textSurface;
+    char* text;
+    bool isHovered;
 };
 
-Button createButton(float x, float y, float w, float h, SDL_Color normal, SDL_Color hover, SDL_Color click) {
-    Button button;
-    button.rect = {x, y, w, h};
-    button.normalColor = normal;
-    button.hoverColor = hover;
-    button.clickColor = click;
-    button.currentColor = normal;
-    button.isClicked = false;
+// Function to create a button
+Button* createButton(SDL_Renderer* renderer, int x, int y, int w, int h,
+                    const char* text, SDL_Color textColor, SDL_Color bgColor, SDL_Color hoverColor,
+                    TTF_Font* font) {
+    Button* button = new Button();
+    button->rect.x = (float)x;
+    button->rect.y = (float)y;
+    button->rect.w = (float)w;
+    button->rect.h = (float)h;
+
+    button->textColor = textColor;
+    button->bgColor = bgColor;
+    button->hoverColor = hoverColor;
+
+    button->text = SDL_strdup(text); 
+    if (font != nullptr) button->textSurface = TTF_RenderText_Solid(font, text, strlen(text), textColor);
+
+    if (!button->textSurface) {
+        std::cerr << "TTF_RenderText_Blended Error: " << SDL_GetError() << std::endl;
+        delete button;
+        return nullptr;
+    }
+
+    button->texture = SDL_CreateTextureFromSurface(renderer, button->textSurface);
+    if (!button->texture) {
+        std::cerr << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+        SDL_DestroySurface(button->textSurface);
+        delete button;
+        return nullptr;
+    }
+
+    button->isHovered = false;
     return button;
 }
 
-void handleButtonEvent(Button& button, SDL_Event& event) {
-    if (event.type == SDL_EVENT_MOUSE_MOTION || event.type == SDL_EVENT_MOUSE_BUTTON_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_UP) {
-        float x, y;
-        SDL_GetMouseState(&x, &y);
-
-        bool inside = true;
-
-        if (x < button.rect.x || x > button.rect.x + button.rect.w || y < button.rect.y || y > button.rect.y + button.rect.h) {
-            inside = false;
-        } ;
-        if (!inside) {
-            button.currentColor = button.normalColor;
-            button.isClicked = false;
-        } else {
-            switch (event.type) {
-                case SDL_EVENT_MOUSE_MOTION:
-                    button.currentColor = button.hoverColor;
-                    break;
-                case SDL_EVENT_MOUSE_BUTTON_DOWN:
-                    button.currentColor = button.clickColor;
-                    button.isClicked = true;
-                    break;
-                case SDL_EVENT_MOUSE_BUTTON_UP:
-                    if (button.isClicked) {
-                        cout << "Button Clicked!" << "\n";
-                    }
-                    button.currentColor = button.hoverColor;
-                    button.isClicked = false;
-                    break;
+void handleButtonEvent(Button* button, SDL_Event* event) {
+    if (event->type == SDL_EVENT_MOUSE_MOTION || event->type == SDL_EVENT_MOUSE_BUTTON_DOWN || event->type == SDL_EVENT_MOUSE_BUTTON_UP) {
+        float mouseX, mouseY;
+        SDL_GetMouseState(&mouseX, &mouseY);
+        if (mouseX >= button->rect.x && mouseX < button->rect.x + button->rect.w &&
+            mouseY >= button->rect.y && mouseY < button->rect.y + button->rect.h) {
+            button->isHovered = true;
+            if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+                if ((string) button->text == "Classic") {
+                    gameMode ^= CLASSIC_MODE;
+                    if (gameMode & CLASSIC_MODE) button->bgColor = selectedColor;
+                    else button->bgColor = deselectedColor;
+                }
+                if ((string) button->text == "Chaos") {
+                    gameMode ^= CHAOS_MODE;
+                    if (gameMode & CHAOS_MODE) button->bgColor = selectedColor;
+                    else button->bgColor = deselectedColor;
+                }
+                if ((string) button->text == "Play!") {
+                    if (gameMode) isPlaying = true;
+                    else isPlaying = false;
+                }
             }
+        } else {
+            button->isHovered = false;
         }
     }
 }
 
-void renderButton(SDL_Renderer* renderer, const Button& button) {
-    SDL_SetRenderDrawColor(renderer, button.currentColor.r, button.currentColor.g, button.currentColor.b, button.currentColor.a);
-    SDL_RenderFillRect(renderer, &button.rect);
+void renderButton(SDL_Renderer* renderer, Button* button) {
+    SDL_Color currentColor = button->isHovered ? button->hoverColor : button->bgColor;
+    SDL_SetRenderDrawColor(renderer, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
+    SDL_RenderFillRect(renderer, &button->rect);
+
+    float textWidth, textHeight;
+    SDL_GetTextureSize(button->texture, &textWidth, &textHeight);
+
+    SDL_FRect textRect;
+    textRect.x = button->rect.x + (button->rect.w - textWidth) / 2;
+    textRect.y = button->rect.y + (button->rect.h - textHeight) / 2;
+    textRect.w = (float)textWidth;
+    textRect.h = (float)textHeight;
+
+    SDL_RenderTexture(renderer, button->texture, NULL, &textRect);
+}
+
+void destroyButton(Button* button) {
+    SDL_DestroyTexture(button->texture);
+    SDL_DestroySurface(button->textSurface);
+    SDL_free(button->text);
+    delete button;
 }
 
 #endif
-
-// int main(int argc, char* argv[]) {
-//     SDL_Color normalColor = {200, 200, 200, 255}; // Gray
-//     SDL_Color hoverColor = {150, 150, 150, 255};  // Darker Gray
-//     SDL_Color clickColor = {100, 100, 100, 255};  // Even Darker Gray
-
-//     Button myButton = createButton(100.0f, 100.0f, 200.0f, 50.0f, normalColor, hoverColor, clickColor);  //Using floats
-
-//     bool quit = false;
-//     SDL_Event event;
-
-//     while (!quit) {
-//         while (SDL_PollEvent(&event)) {
-//             if (event.type == SDL_EVENT_QUIT) { // SDL_QUIT -> SDL_EVENT_QUIT
-//                 quit = true;
-//             }
-//             handleButtonEvent(myButton, event);  // Pass the button to the event handler
-//         }
-//         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
-//         SDL_RenderClear(renderer);
-//         renderButton(renderer, myButton);
-//         SDL_RenderPresent(renderer);
-//     }
-// }

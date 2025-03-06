@@ -15,7 +15,8 @@ void repaintHolder() {
     if (holdingPiece) {
         int x = boardCoordinateX - BLOCK_SIZE * 6;
         int y = boardCoordinateY;
-        paintPiece(holdingPiece, x, y, BLOCK_SIZE);
+        if (isHoldingPieceAccessible) paintPiece(holdingPiece, x, y, BLOCK_SIZE);
+        else paintPieceGray(holdingPiece, x, y, BLOCK_SIZE);
     }
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderRect(renderer, &rect);

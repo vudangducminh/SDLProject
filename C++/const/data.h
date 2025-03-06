@@ -8,9 +8,11 @@ using namespace std;
 mt19937_64 rng;
 
 // Main 
+TTF_Font* fontBold;
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* playerTexture;
+SDL_Event event;
 
 // Piece color
 struct rgba {
@@ -19,8 +21,19 @@ struct rgba {
     int b;
     int a;
 };
-
 rgba COLOR[9];
+
+// Button color
+SDL_Color normalColor = {200, 200, 200, 255};
+SDL_Color deselectedColor = {255, 0, 0, 255};
+SDL_Color selectedColor = {0, 255, 0, 255};
+SDL_Color hoverColor = {150, 150, 150, 255};
+SDL_Color textColor = {0, 0, 0, 255};	
+
+// Default board size
+int ROW = 20;
+int COL = 10;
+int QUEUE_SIZE = 5;
 
 // Settings
 const int FPS = 60;
@@ -78,4 +91,8 @@ const int holdPieceKey = SDL_SCANCODE_C;
 const int softDropKey = SDL_SCANCODE_PERIOD;
 const int hardDropKey = SDL_SCANCODE_SPACE;
 
+// Mods
+const int CLASSIC_MODE = 1;
+const int CHAOS_MODE = 2;
+// const int CLASSIC_MODE = 1;
 #endif

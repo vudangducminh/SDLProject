@@ -6,7 +6,7 @@
 using namespace std;
 
 int currentShadowRow = -1;
-void updateShadowPiece(int piece, int x, int y, int d) {
+void updateShadowPiece(int piece, int &x, int &y, int &d) {
     int cnt = 0;
     for (int j = y; j < ROW; j++) {
         // if (cnt == 4) break;

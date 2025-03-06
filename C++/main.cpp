@@ -26,13 +26,20 @@ void SDL_AppQuit(void *appState, SDL_AppResult appResult) {
 }
 
 double curPaintTime, nextPaintTime;
-int gameMode = 0;
 
 void update() {
 	curPaintTime = clock();
-	if (!gameMode) {
+	if (!isPlaying) {
 		return;
 	}
+
+	if (!isInitialized) {
+		isInitialized = true;
+		if (gameMode & CHAOS_MODE) initializeChaosColor();
+		else initializeColor();
+		initializeBoard(ROW, COL, QUEUE_SIZE);
+	}
+	
 	reloadBatch();
 	if (currentPiece == -1) {
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
@@ -46,6 +53,7 @@ void update() {
 	keyboardStateUpdate();
 	if (!dropping(currentPiece, currentX, currentY, currentD)) {
 		clearLines();
+		if (gameMode & CHAOS_MODE) initializeChaosColor();
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
 		currentX = 4, currentY = -1, currentD = 0;
 		isMoved = 30; spawnTime = FPS / 10; isHoldingPieceAccessible = true;
@@ -58,26 +66,24 @@ void update() {
 }
 
 
-SDL_Event event;
-SDL_Color normalColor = {200, 200, 200, 255};
-SDL_Color hoverColor = {150, 150, 150, 255};
-SDL_Color clickColor = {100, 100, 100, 255};	
-Button classicModeButton = createButton(100.0f, 100.0f, 200.0f, 50.0f, normalColor, hoverColor, clickColor);
+Button* classicModeButton;
+Button* chaosButton;
+Button* playButton;
 
 void repaint() {
-	if (!gameMode) {
+	if (!isPlaying) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         renderButton(renderer, classicModeButton);
-
-		// Find a way to draw text
-		
+        renderButton(renderer, chaosButton);
+        renderButton(renderer, playButton);
         SDL_RenderPresent(renderer);
 		return;
 	}
 	repaintBoard();
 	repaintQueue();
 	repaintHolder();
+	
     SDL_RenderPresent(renderer); 
 	
 }
@@ -87,7 +93,9 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
 		return SDL_APP_SUCCESS;
 	}
             
-	handleButtonEvent(classicModeButton, *event);
+	handleButtonEvent(classicModeButton, event);
+	handleButtonEvent(chaosButton, event);
+	handleButtonEvent(playButton, event);
 	return SDL_APP_CONTINUE;
 }
 
@@ -103,6 +111,8 @@ SDL_AppResult SDL_AppIterate(void *appState) {
 }
 
 SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
+	rng.seed((long long)main ^ time(0));
+
 	if (!SDL_Init(SDL_INIT_VIDEO)) {
 		SDL_Log("Error initializing SDL: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
@@ -126,9 +136,21 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
 	}
 
-	rng.seed((long long)main ^ time(0));
-	initializeBoard(20, 10, 5);
-	initializeColor();
+	if(!TTF_Init()) {
+        std::cerr << "SDL_ttf Init Failed: " << std::endl;
+        SDL_Quit();
+		return SDL_APP_FAILURE;
+    }
+
+	fontBold = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 28);
+	if (!fontBold) {
+		SDL_Log("Error loading font: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+    }
+
+	classicModeButton = createButton(renderer, 100, 100, 200, 50, "Classic", textColor, deselectedColor, hoverColor, fontBold);
+	chaosButton = createButton(renderer, 350, 100, 200, 50, "Chaos", textColor, deselectedColor, hoverColor, fontBold);
+	playButton = createButton(renderer, 600, 100, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold);
 
 	return SDL_APP_CONTINUE;
 }
