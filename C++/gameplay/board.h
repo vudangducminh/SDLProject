@@ -19,6 +19,7 @@ int currentDroppingFrame = 0, cap = droppingSpeed;
 int isMoved = MOVING_DETECTION_BY_FRAME;
 int spawnTime = FPS / 10;
 int holdingPiece = 0;
+int numberOfPiece = 0, maxPieceID = 0;
 bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
 
 void initializeBoard(int row, int col, int queueSize) {

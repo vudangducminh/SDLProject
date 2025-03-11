@@ -35,8 +35,7 @@ void update() {
 
 	if (!isInitialized) {
 		isInitialized = true;
-		if (gameMode & CHAOS_MODE) initializeChaosColor();
-		else initializeColor();
+		initializeColor();
 		initializeBoard(ROW, COL, QUEUE_SIZE);
 	}
 	
@@ -53,7 +52,7 @@ void update() {
 	keyboardStateUpdate();
 	if (!dropping(currentPiece, currentX, currentY, currentD)) {
 		clearLines();
-		if (gameMode & CHAOS_MODE) initializeChaosColor();
+		numberOfPiece++;
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
 		currentX = 4, currentY = -1, currentD = 0;
 		isMoved = 30; spawnTime = FPS / 10; isHoldingPieceAccessible = true;

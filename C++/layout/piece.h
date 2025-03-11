@@ -22,23 +22,9 @@ void initializeColor() {
     COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
 }
 
-
-void initializeChaosColor() {
-    COLOR[0] = {0, 0, 0, 255}; 
-    COLOR[PIECE_T] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[PIECE_O] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[PIECE_J] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[PIECE_L] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[PIECE_S] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[PIECE_Z] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[PIECE_I] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
-    COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
-}
-
 bool isOccupied(int x, int y) {
-    return state[x][y] > 0 && state[x][y] < 8;
+    return state[x][y] != 0 && state[x][y] != SHADOW_PIECE;
 }
-
 
 bool checkT(int x, int y, int direction) {
     if (direction == DEGREE_0) {
@@ -63,18 +49,18 @@ bool checkT(int x, int y, int direction) {
     return true;
 }
 
-void fillT(int x, int y, int direction) {
+void fillT(int x, int y, int direction, int value) {
     if (direction == DEGREE_0) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x][y + 9] = PIECE_T;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x][y + 9] = value;
     }
     else if (direction == DEGREE_90) {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x + 1][y + 10] = PIECE_T;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x + 1][y + 10] = value;
     }
     else if (direction == DEGREE_180) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x][y + 11] = PIECE_T;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x][y + 11] = value;
     }
     else {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 10] = PIECE_T;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 10] = value;
     }
 }
 
@@ -114,8 +100,8 @@ bool checkO(int x, int y, int direction) {
     return (isOccupied(x, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x, y + 9) + state[x + 1][y + 9]) == 0;
 }
 
-void fillO(int x, int y, int direction) {
-    state[x][y + 10] = state[x + 1][y + 10] = state[x][y + 9] = state[x + 1][y + 9] = PIECE_O;
+void fillO(int x, int y, int direction, int value) {
+    state[x][y + 10] = state[x + 1][y + 10] = state[x][y + 9] = state[x + 1][y + 9] = value;
 }
 
 void fillShadowO(int x, int y, int direction) {
@@ -149,18 +135,18 @@ bool checkJ(int x, int y, int direction) {
     return true;
 }
 
-void fillJ(int x, int y, int direction) {
+void fillJ(int x, int y, int direction, int value) {
     if (direction == DEGREE_0) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x - 1][y + 9] = PIECE_J;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x - 1][y + 9] = value;
     }
     else if (direction == DEGREE_90) {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x + 1][y + 9] = PIECE_J;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x + 1][y + 9] = value;
     }
     else if (direction == DEGREE_180) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x + 1][y + 11] = PIECE_J;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x + 1][y + 11] = value;
     }
     else {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 11] = PIECE_J;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 11] = value;
     }
 }
 
@@ -219,18 +205,18 @@ bool checkL(int x, int y, int direction) {
     return true;
 }
 
-void fillL(int x, int y, int direction) {
+void fillL(int x, int y, int direction, int value) {
     if (direction == DEGREE_0) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x + 1][y + 9] = PIECE_L;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x + 1][y + 9] = value;
     }
     else if (direction == DEGREE_90) {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x + 1][y + 11] = PIECE_L;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x + 1][y + 11] = value;
     }
     else if (direction == DEGREE_180) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x - 1][y + 11] = PIECE_L;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x - 1][y + 11] = value;
     }
     else {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 9] = PIECE_L;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 9] = value;
     }
 }
 
@@ -288,18 +274,18 @@ bool checkS(int x, int y, int direction) {
     return true;
 }
 
-void fillS(int x, int y, int direction) {
+void fillS(int x, int y, int direction, int value) {
     if (direction == DEGREE_0) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 9] = state[x][y + 9] = PIECE_S;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 9] = state[x][y + 9] = value;
     }
     else if (direction == DEGREE_90) {
-        state[x][y + 9] = state[x + 1][y + 11] = state[x][y + 10] = state[x + 1][y + 10] = PIECE_S;
+        state[x][y + 9] = state[x + 1][y + 11] = state[x][y + 10] = state[x + 1][y + 10] = value;
     }
     else if (direction == DEGREE_180) {
-        state[x][y + 10] = state[x - 1][y + 11] = state[x + 1][y + 10] = state[x][y + 11] = PIECE_S;
+        state[x][y + 10] = state[x - 1][y + 11] = state[x + 1][y + 10] = state[x][y + 11] = value;
     }
     else {
-        state[x - 1][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 10] = PIECE_S;
+        state[x - 1][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x - 1][y + 10] = value;
     }
 }
 
@@ -357,18 +343,18 @@ bool checkZ(int x, int y, int direction) {
     return true;
 }
 
-void fillZ(int x, int y, int direction) {
+void fillZ(int x, int y, int direction, int value) {
     if (direction == DEGREE_0) {
-        state[x][y + 10] = state[x - 1][y + 9] = state[x + 1][y + 10] = state[x][y + 9] = PIECE_Z;
+        state[x][y + 10] = state[x - 1][y + 9] = state[x + 1][y + 10] = state[x][y + 9] = value;
     }
     else if (direction == DEGREE_90) {
-        state[x][y + 10] = state[x][y + 11] = state[x + 1][y + 9] = state[x + 1][y + 10] = PIECE_Z;
+        state[x][y + 10] = state[x][y + 11] = state[x + 1][y + 9] = state[x + 1][y + 10] = value;
     }
     else if (direction == DEGREE_180) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 11] = state[x][y + 11] = PIECE_Z;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 11] = state[x][y + 11] = value;
     }
     else {
-        state[x - 1][y + 10] = state[x - 1][y + 11] = state[x][y + 9] = state[x][y + 10] = PIECE_Z;
+        state[x - 1][y + 10] = state[x - 1][y + 11] = state[x][y + 9] = state[x][y + 10] = value;
     }
 }
 
@@ -426,18 +412,18 @@ bool checkI(int x, int y, int direction) {
     return true;
 }
 
-void fillI(int x, int y, int direction) {
+void fillI(int x, int y, int direction, int value) {
     if (direction == DEGREE_0) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x + 2][y + 10] = PIECE_I;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x + 2][y + 10] = value;
     }
     else if (direction == DEGREE_90) {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x][y + 12] = PIECE_I;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x][y + 12] = value;
     }
     else if (direction == DEGREE_180) {
-        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x - 2][y + 10] = PIECE_I;
+        state[x][y + 10] = state[x - 1][y + 10] = state[x + 1][y + 10] = state[x - 2][y + 10] = value;
     }
     else {
-        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x][y + 8] = PIECE_I;
+        state[x][y + 9] = state[x][y + 11] = state[x][y + 10] = state[x][y + 8] = value;
     }
 }
 
@@ -474,17 +460,22 @@ void removeI(int x, int y, int direction) {
 
 
 void fillPiece(int piece, int x, int y, int direction) {
-    if (piece == PIECE_T) fillT(x, y, direction);
-    if (piece == PIECE_O) fillO(x, y, direction);
-    if (piece == PIECE_J) fillJ(x, y, direction);
-    if (piece == PIECE_L) fillL(x, y, direction);
-    if (piece == PIECE_S) fillS(x, y, direction);
-    if (piece == PIECE_Z) fillZ(x, y, direction);
-    if (piece == PIECE_I) fillI(x, y, direction);
+    int value = piece;
+    piece %= 7;
+    if (!piece) piece = 7;
+    if (piece == PIECE_T) fillT(x, y, direction, value);
+    if (piece == PIECE_O) fillO(x, y, direction, value);
+    if (piece == PIECE_J) fillJ(x, y, direction, value);
+    if (piece == PIECE_L) fillL(x, y, direction, value);
+    if (piece == PIECE_S) fillS(x, y, direction, value);
+    if (piece == PIECE_Z) fillZ(x, y, direction, value);
+    if (piece == PIECE_I) fillI(x, y, direction, value);
 }
 
 
 void fillShadowPiece(int piece, int x, int y, int direction) {
+    piece %= 7;
+    if (!piece) piece = 7;
     if (piece == PIECE_T) fillShadowT(x, y, direction);
     if (piece == PIECE_O) fillShadowO(x, y, direction);
     if (piece == PIECE_J) fillShadowJ(x, y, direction);
@@ -495,6 +486,8 @@ void fillShadowPiece(int piece, int x, int y, int direction) {
 }
 
 void removePiece(int piece, int x, int y, int direction) {
+    piece %= 7;
+    if (!piece) piece = 7;
     if (piece == PIECE_T) removeT(x, y, direction);
     if (piece == PIECE_O) removeO(x, y, direction);
     if (piece == PIECE_J) removeJ(x, y, direction);
@@ -506,6 +499,8 @@ void removePiece(int piece, int x, int y, int direction) {
 
 bool checkPiece(int piece, int x, int y, int direction) {
     bool fillable; 
+    piece %= 7;
+    if (!piece) piece = 7;
     if (piece == PIECE_T) {
         fillable = checkT(x, y, direction);
         return fillable;
@@ -584,6 +579,8 @@ void paintI(int x, int y, float blockSize) {
 
 void paintPiece(int piece, int x, int y, float blockSize) {
     SDL_SetRenderDrawColor(renderer, COLOR[piece].r, COLOR[piece].g, COLOR[piece].b, COLOR[piece].a);
+    piece %= 7;
+    if (!piece) piece = 7;
     if (piece == PIECE_T) paintT(x, y, blockSize);
     if (piece == PIECE_O) paintO(x, y, blockSize);
     if (piece == PIECE_J) paintJ(x, y, blockSize);
@@ -595,6 +592,8 @@ void paintPiece(int piece, int x, int y, float blockSize) {
 
 void paintPieceGray(int piece, int x, int y, float blockSize) {
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+    piece %= 7;
+    if (!piece) piece = 7;
     if (piece == PIECE_T) paintT(x, y, blockSize);
     if (piece == PIECE_O) paintO(x, y, blockSize);
     if (piece == PIECE_J) paintJ(x, y, blockSize);

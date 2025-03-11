@@ -6,6 +6,7 @@
 #include<SDL3/SDL_main.h>
 #include "../const/data.h"
 #include "../layout/piece.h"
+#include "board.h"
 using namespace std;
 
 vector<int> newBatch;
@@ -14,13 +15,22 @@ deque<int> currentQueue;
 void reloadBatch() {
 	if (currentQueue.size() > QUEUE_SIZE) return;
 	newBatch.clear();
-	for (int i = 1; i <= 7; i++) newBatch.push_back(i);
+	for (int i = maxPieceID + 1; i <= maxPieceID + 7; i++) newBatch.push_back(i);
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < i; j++) {
 			if (rng() & 1) swap(newBatch[i], newBatch[j]);
 		}
 	}
-	for (auto i: newBatch) currentQueue.push_back(i);
+	for (auto i: newBatch) {
+		maxPieceID++;
+		if (gameMode & CHAOS_MODE) {
+			COLOR[maxPieceID] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+			currentQueue.push_back(i);
+		} else {
+			if (i % 7 == 0) currentQueue.push_back(7);
+			else currentQueue.push_back(i % 7);
+		}
+	}
 }
 
 void repaintQueue() {
@@ -36,6 +46,7 @@ void repaintQueue() {
 		int x = (BLOCK_SIZE - MINI_BLOCK_SIZE) * 2 + boardCoordinateX + (COL + 1) * BLOCK_SIZE;
 		int y = boardCoordinateY + (i - 1) * 3 * BLOCK_SIZE;
 		paintPiece(piece, x, y, MINI_BLOCK_SIZE);
+
 	}
 
 	while (tmp.size()) {

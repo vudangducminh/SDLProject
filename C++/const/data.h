@@ -21,7 +21,7 @@ struct rgba {
     int b;
     int a;
 };
-rgba COLOR[9];
+rgba COLOR[1 << 20];
 
 // Button color
 SDL_Color normalColor = {200, 200, 200, 255};
@@ -47,7 +47,7 @@ const int DEGREE_0 = 0;
 const int DEGREE_90 = 1;
 const int DEGREE_180 = 2;
 const int DEGREE_270 = 3;
-const int SHADOW_PIECE = 8;
+const int SHADOW_PIECE = (1 << 20) - 1;
 const int PIECE_T = 7;
 const int PIECE_I = 6;
 const int PIECE_O = 5;

@@ -12,7 +12,7 @@ void updateShadowPiece(int piece, int &x, int &y, int &d) {
         // if (cnt == 4) break;
         for (int i = max(0, x - 3); i < min(COL, x + 4); i++) {
             // if (cnt == 4) break;
-            if (state[i][j + 10] == 8) {
+            if (state[i][j + 10] == SHADOW_PIECE) {
                 state[i][j + 10] = 0;
                 cnt++;
             }
