@@ -25,6 +25,10 @@ void reloadBatch() {
 		maxPieceID++;
 		if (gameMode & CHAOS_MODE) {
 			COLOR[maxPieceID] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+			// Avoid dark colors because it's hard to distinguish the board and pieces  
+			while (COLOR[maxPieceID].r < 10 && COLOR[maxPieceID].g < 10 && COLOR[maxPieceID].b < 10) {
+				COLOR[maxPieceID] = {(int) rng() % 256, (int) rng() % 256, (int) rng() % 256, 255}; 
+			}
 			currentQueue.push_back(i);
 		} else {
 			if (i % 7 == 0) currentQueue.push_back(7);

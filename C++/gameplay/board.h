@@ -8,20 +8,6 @@
 // #include "piece.h"
 using namespace std;
 
-int state[40][40];
-int droppingSpeed = DROPPING_SPEED;
-int gameMode = 0;
-float boardCoordinateX, boardCoordinateY;
-bool gameOver = false;
-
-int currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0;
-int currentDroppingFrame = 0, cap = droppingSpeed;
-int isMoved = MOVING_DETECTION_BY_FRAME;
-int spawnTime = FPS / 10;
-int holdingPiece = 0;
-int numberOfPiece = 0, maxPieceID = 0;
-bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
-
 void initializeBoard(int row, int col, int queueSize) {
     ROW = row;
     COL = col;

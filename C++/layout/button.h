@@ -4,7 +4,10 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <bits/stdc++.h>
-#include "../gameplay/board.h"
+#include "text.h"
+#include "../const/data.h"
+#include "../const/UI.h"
+
 using namespace std;
 
 struct Button {
@@ -53,6 +56,28 @@ Button* createButton(SDL_Renderer* renderer, int x, int y, int w, int h,
     return button;
 }
 
+void handleClickedEvent(Button* button) {
+    if ((string) button->text == "Classic") {
+        gameMode ^= CLASSIC_MODE;
+        if (gameMode & CLASSIC_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Chaos") {
+        gameMode ^= CHAOS_MODE;
+        if (gameMode & CHAOS_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Hidden") {
+        gameMode ^= HIDDEN_MODE;
+        if (gameMode & HIDDEN_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Play!") {
+        if (gameMode) isPlaying = true;
+        else isPlaying = false;
+    }
+}
+
 void handleButtonEvent(Button* button, SDL_Event* event) {
     if (event->type == SDL_EVENT_MOUSE_MOTION || event->type == SDL_EVENT_MOUSE_BUTTON_DOWN || event->type == SDL_EVENT_MOUSE_BUTTON_UP) {
         float mouseX, mouseY;
@@ -61,20 +86,7 @@ void handleButtonEvent(Button* button, SDL_Event* event) {
             mouseY >= button->rect.y && mouseY < button->rect.y + button->rect.h) {
             button->isHovered = true;
             if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-                if ((string) button->text == "Classic") {
-                    gameMode ^= CLASSIC_MODE;
-                    if (gameMode & CLASSIC_MODE) button->bgColor = selectedColor;
-                    else button->bgColor = deselectedColor;
-                }
-                if ((string) button->text == "Chaos") {
-                    gameMode ^= CHAOS_MODE;
-                    if (gameMode & CHAOS_MODE) button->bgColor = selectedColor;
-                    else button->bgColor = deselectedColor;
-                }
-                if ((string) button->text == "Play!") {
-                    if (gameMode) isPlaying = true;
-                    else isPlaying = false;
-                }
+                handleClickedEvent(button);
             }
         } else {
             button->isHovered = false;

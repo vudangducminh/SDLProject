@@ -4,15 +4,9 @@
 #include<bits/stdc++.h>
 #include<SDL3/SDL.h>
 #include<SDL3/SDL_main.h>
+
 using namespace std;
 mt19937_64 rng;
-
-// Main 
-TTF_Font* fontBold;
-SDL_Window* window;
-SDL_Renderer* renderer;
-SDL_Texture* playerTexture;
-SDL_Event event;
 
 // Piece color
 struct rgba {
@@ -23,12 +17,9 @@ struct rgba {
 };
 rgba COLOR[1 << 20];
 
-// Button color
-SDL_Color normalColor = {200, 200, 200, 255};
-SDL_Color deselectedColor = {255, 0, 0, 255};
-SDL_Color selectedColor = {0, 255, 0, 255};
-SDL_Color hoverColor = {150, 150, 150, 255};
-SDL_Color textColor = {0, 0, 0, 255};	
+// Selected & deselected color
+SDL_Color DESELECTED_COLOR = {255, 0, 0, 255};
+SDL_Color SELECTED_COLOR = {0, 255, 0, 255};
 
 // Default board size
 int ROW = 20;
@@ -94,5 +85,24 @@ const int hardDropKey = SDL_SCANCODE_SPACE;
 // Mods
 const int CLASSIC_MODE = 1;
 const int CHAOS_MODE = 2;
+const int HIDDEN_MODE = 4;
 // const int CLASSIC_MODE = 1;
+
+// Game state
+int state[40][40];
+int droppingSpeed = DROPPING_SPEED;
+int gameMode = 0;
+float boardCoordinateX, boardCoordinateY;
+bool gameOver = false;
+
+int currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0;
+int currentDroppingFrame = 0, cap = droppingSpeed;
+int isMoved = MOVING_DETECTION_BY_FRAME;
+int spawnTime = FPS / 10;
+int holdingPiece = 0;
+int numberOfPiece = 0, maxPieceID = 0;
+bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
+
+// Text
+string score = "";
 #endif

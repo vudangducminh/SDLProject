@@ -6,8 +6,8 @@
 #include<SDL3_image/SDL_image.h>
 #include <unistd.h>
 #include "const/data.h"
+#include "const/UI.h"
 #include "layout/piece.h"
-#include "layout/button.h"
 #include "gameplay/dropping.h"
 #include "gameplay/shadow_piece.h"
 #include "gameplay/clear_lines.h"
@@ -26,6 +26,7 @@ void SDL_AppQuit(void *appState, SDL_AppResult appResult) {
 }
 
 double curPaintTime, nextPaintTime;
+
 
 void update() {
 	curPaintTime = clock();
@@ -64,23 +65,19 @@ void update() {
 	}
 }
 
-
-Button* classicModeButton;
-Button* chaosButton;
-Button* playButton;
-
 void repaint() {
 	if (!isPlaying) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         renderButton(renderer, classicModeButton);
         renderButton(renderer, chaosButton);
+        renderButton(renderer, hiddenButton);
         renderButton(renderer, playButton);
         SDL_RenderPresent(renderer);
 		return;
 	}
 	repaintBoard();
-	repaintQueue();
+	if (!(gameMode & HIDDEN_MODE)) repaintQueue();
 	repaintHolder();
 	
     SDL_RenderPresent(renderer); 
@@ -94,6 +91,7 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
             
 	handleButtonEvent(classicModeButton, event);
 	handleButtonEvent(chaosButton, event);
+	handleButtonEvent(hiddenButton, event);
 	handleButtonEvent(playButton, event);
 	return SDL_APP_CONTINUE;
 }
@@ -147,9 +145,10 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
     }
 
-	classicModeButton = createButton(renderer, 100, 100, 200, 50, "Classic", textColor, deselectedColor, hoverColor, fontBold);
-	chaosButton = createButton(renderer, 350, 100, 200, 50, "Chaos", textColor, deselectedColor, hoverColor, fontBold);
-	playButton = createButton(renderer, 600, 100, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold);
+	classicModeButton = createButton(renderer, 100, 170, 200, 50, "Classic", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	chaosButton = createButton(renderer, 350, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	hiddenButton = createButton(renderer, 600, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	playButton = createButton(renderer, 850, 170, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold);
 
 	return SDL_APP_CONTINUE;
 }
