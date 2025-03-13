@@ -11,6 +11,7 @@
 #include "gameplay/dropping.h"
 #include "gameplay/shadow_piece.h"
 #include "gameplay/clear_lines.h"
+#include "gameplay/calculate_score.h"
 #include "gameplay/queue.h"
 #include "gameplay/holder.h"
 #include "gameplay/board.h"
@@ -33,11 +34,21 @@ void update() {
 	if (!isPlaying) {
 		return;
 	}
-
+	curGameTime = curPaintTime;
 	if (!isInitialized) {
 		isInitialized = true;
-		initializeColor();
+		currentLevel = 1;
+		if (gameMode & HARD_ROCK_MODE) {
+			currentLevel += 4;
+			COL = 12;
+		}
+		if (gameMode & DOUBLE_TIME_MODE) {
+			currentLevel += 20;
+			ROW = 10;
+		}
 		initializeBoard(ROW, COL, QUEUE_SIZE);
+		cap = droppingSpeed[currentLevel];
+		startGameTime = curPaintTime;
 	}
 	
 	reloadBatch();
@@ -52,7 +63,9 @@ void update() {
 	}
 	keyboardStateUpdate();
 	if (!dropping(currentPiece, currentX, currentY, currentD)) {
-		clearLines();
+		linesCleared = clearLines();
+		totalLinesCleared += linesCleared;
+		currentScore += calculateScore(linesCleared);
 		numberOfPiece++;
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
 		currentX = 4, currentY = -1, currentD = 0;
@@ -73,11 +86,13 @@ void repaint() {
         renderButton(renderer, chaosButton);
         renderButton(renderer, hiddenButton);
         renderButton(renderer, playButton);
+        renderButton(renderer, hardRockButton);
+        renderButton(renderer, doubleTimeButton);
         SDL_RenderPresent(renderer);
 		return;
 	}
 	repaintBoard();
-	if (!(gameMode & HIDDEN_MODE)) repaintQueue();
+	repaintQueue();
 	repaintHolder();
 	
     SDL_RenderPresent(renderer); 
@@ -93,6 +108,8 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
 	handleButtonEvent(chaosButton, event);
 	handleButtonEvent(hiddenButton, event);
 	handleButtonEvent(playButton, event);
+	handleButtonEvent(hardRockButton, event);
+	handleButtonEvent(doubleTimeButton, event);
 	return SDL_APP_CONTINUE;
 }
 
@@ -145,10 +162,16 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
     }
 
+	// Pre-load fixed data
+	initializeDroppingSpeed();
+	initializeColor();
+
 	classicModeButton = createButton(renderer, 100, 170, 200, 50, "Classic", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	chaosButton = createButton(renderer, 350, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	hiddenButton = createButton(renderer, 600, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	playButton = createButton(renderer, 850, 170, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold);
+	chaosButton = createButton(renderer, 325, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	hiddenButton = createButton(renderer, 550, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	hardRockButton = createButton(renderer, 775, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	doubleTimeButton = createButton(renderer, 1000, 170, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold);
+	playButton = createButton(renderer, 620, 570, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold);
 
 	return SDL_APP_CONTINUE;
 }

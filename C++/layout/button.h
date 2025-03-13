@@ -59,18 +59,21 @@ Button* createButton(SDL_Renderer* renderer, int x, int y, int w, int h,
 void handleClickedEvent(Button* button) {
     if ((string) button->text == "Classic") {
         gameMode ^= CLASSIC_MODE;
-        if (gameMode & CLASSIC_MODE) button->bgColor = SELECTED_COLOR;
-        else button->bgColor = DESELECTED_COLOR;
+        if (gameMode & HIDDEN_MODE) gameMode ^= HIDDEN_MODE;
     }
     if ((string) button->text == "Chaos") {
         gameMode ^= CHAOS_MODE;
-        if (gameMode & CHAOS_MODE) button->bgColor = SELECTED_COLOR;
-        else button->bgColor = DESELECTED_COLOR;
     }
     if ((string) button->text == "Hidden") {
         gameMode ^= HIDDEN_MODE;
-        if (gameMode & HIDDEN_MODE) button->bgColor = SELECTED_COLOR;
-        else button->bgColor = DESELECTED_COLOR;
+        if (gameMode & CLASSIC_MODE) gameMode ^= CLASSIC_MODE;
+    }
+    
+    if ((string) button->text == "Hard-rock") {
+        gameMode ^= HARD_ROCK_MODE;
+    }
+    if ((string) button->text == "Double time") {
+        gameMode ^= DOUBLE_TIME_MODE;
     }
     if ((string) button->text == "Play!") {
         if (gameMode) isPlaying = true;
@@ -95,6 +98,26 @@ void handleButtonEvent(Button* button, SDL_Event* event) {
 }
 
 void renderButton(SDL_Renderer* renderer, Button* button) {
+    if ((string) button->text == "Classic") {
+        if (gameMode & CLASSIC_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Chaos") {
+        if (gameMode & CHAOS_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Hidden") {
+        if (gameMode & HIDDEN_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Hard-rock") {
+        if (gameMode & HARD_ROCK_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Double time") {
+        if (gameMode & DOUBLE_TIME_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
     SDL_Color currentColor = button->isHovered ? button->hoverColor : button->bgColor;
     SDL_SetRenderDrawColor(renderer, currentColor.r, currentColor.g, currentColor.b, currentColor.a);
     SDL_RenderFillRect(renderer, &button->rect);

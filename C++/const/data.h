@@ -46,9 +46,9 @@ const int PIECE_Z = 4;
 const int PIECE_S = 3;
 const int PIECE_L = 2;
 const int PIECE_J = 1;
-const int MAX_DROP_DELAY = FPS * 5;
+const int DEFAULT_MAX_DROP_DELAY = FPS * 5;
 const int MOVING_DETECTION_BY_FRAME = FPS / 2;
-const int DROPPING_SPEED = FPS;
+const int DEFAULT_DROPPING_SPEED = FPS;
 
 // Wall Kick Data
 const pair<int, int> wallKickOthers[][5] = {
@@ -86,23 +86,32 @@ const int hardDropKey = SDL_SCANCODE_SPACE;
 const int CLASSIC_MODE = 1;
 const int CHAOS_MODE = 2;
 const int HIDDEN_MODE = 4;
-// const int CLASSIC_MODE = 1;
+const int HARD_ROCK_MODE = 8;
+const int DOUBLE_TIME_MODE = 16;
 
+int droppingSpeed[31], maxDropDelay[31];
+
+void initializeDroppingSpeed() {
+    droppingSpeed[0] = DEFAULT_DROPPING_SPEED + 1;
+    maxDropDelay[0] = DEFAULT_DROPPING_SPEED + 1;
+    for (int i = 1; i <= 5; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 3;
+    for (int i = 6; i <= 25; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 2;
+    for (int i = 26; i <= 30; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 1;
+    for (int i = 1; i <= 30; i++) maxDropDelay[i] = max(FPS, min(droppingSpeed[i] * 8, DEFAULT_MAX_DROP_DELAY));
+}
 // Game state
 int state[40][40];
-int droppingSpeed = DROPPING_SPEED;
 int gameMode = 0;
 float boardCoordinateX, boardCoordinateY;
 bool gameOver = false;
-
 int currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0;
-int currentDroppingFrame = 0, cap = droppingSpeed;
+int currentDroppingFrame = 0, cap = DEFAULT_MAX_DROP_DELAY;
 int isMoved = MOVING_DETECTION_BY_FRAME;
 int spawnTime = FPS / 10;
 int holdingPiece = 0;
 int numberOfPiece = 0, maxPieceID = 0;
+int totalLinesCleared = 0, linesCleared = 0;
+int currentScore = 0, currentLevel = 1;
 bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
-
-// Text
-string score = "";
+double curGameTime = 0, startGameTime = 0;
 #endif

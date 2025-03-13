@@ -8,12 +8,14 @@ using namespace std;
 
 int occupied[40];
 
-void clearLines() {
+int clearLines() {
+    int lines = 0;
     for (int i = 0; i < ROW + 10; i++) occupied[i] = 0;
     for (int j = ROW + 9; j >= 0; j--) {
         for (int i = 0; i < COL; i++) {
             occupied[j] += isOccupied(i, j);
         }
+        lines += (occupied[j] == COL);
     }
     for (int j = ROW + 9; j >= 0; j--) {
         if (occupied[j] && occupied[j] < COL) continue;
@@ -30,6 +32,7 @@ void clearLines() {
             break;
         }
     }
+    return lines;
 }
 
 #endif

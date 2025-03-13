@@ -15,14 +15,14 @@ bool dropping(int piece, int &x, int &y, int &h) {
             y++;
         }
         else {
-            if (cap == MAX_DROP_DELAY) {
+            if (cap == maxDropDelay[currentLevel]) {
                 currentDroppingFrame = 0;
                 fillPiece(piece, x, y, h);
                 return false;
             }
             if (isMoved) {
                 currentDroppingFrame = cap;
-                cap = MAX_DROP_DELAY;
+                cap = maxDropDelay[currentLevel];
                 fillPiece(piece, x, y, h);
                 return true;
             }
@@ -30,18 +30,18 @@ bool dropping(int piece, int &x, int &y, int &h) {
             return false;
         }
     }
-    else if (currentDroppingFrame > droppingSpeed) {
-        if (currentDroppingFrame % droppingSpeed) return true;
+    else if (currentDroppingFrame > droppingSpeed[currentLevel]) {
+        if (currentDroppingFrame % droppingSpeed[currentLevel]) return true;
         removePiece(piece, x, y, h);
         if (checkPiece(piece, x, y + 1, h)) {
             y++;
-            cap = droppingSpeed;
+            cap = droppingSpeed[currentLevel];
             currentDroppingFrame = 0;
         }
         else {
             if (!isMoved) {
                 fillPiece(piece, x, y, h);
-                cap = droppingSpeed;
+                cap = droppingSpeed[currentLevel];
                 currentDroppingFrame = 0;
                 return false;
             }

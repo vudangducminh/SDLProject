@@ -155,13 +155,13 @@ void keyboardStateUpdate() {
             removePiece(currentPiece, currentX, currentY, currentD);
             currentY = currentShadowRow;
             fillPiece(currentPiece, currentX, currentY, currentD);
-            cap = MAX_DROP_DELAY;
+            cap = maxDropDelay[currentLevel];
             currentDroppingFrame = cap - 1;
         }
     }
     else isHardDropping = false;
 
-    if (keyboardStateUpdate[holdPieceKey]) {
+    if (keyboardStateUpdate[holdPieceKey] && !(gameMode & CLASSIC_MODE)) {
         if (isHoldingPieceAccessible) {
             isHoldingPieceAccessible = false;
             removePiece(currentPiece, currentX, currentY, currentD);

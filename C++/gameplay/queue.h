@@ -38,6 +38,14 @@ void reloadBatch() {
 }
 
 void repaintQueue() {
+	if (gameMode & HIDDEN_MODE || gameMode & CLASSIC_MODE) {
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
+		SDL_FRect rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, BLOCK_SIZE * 4, BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
+		SDL_RenderFillRect(renderer, &rect);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_RenderRect(renderer, &rect);
+		return;
+	}
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
 	SDL_FRect rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, BLOCK_SIZE * 4, BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
 	SDL_RenderFillRect(renderer, &rect);

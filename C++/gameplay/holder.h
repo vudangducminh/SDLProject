@@ -9,6 +9,14 @@
 #include "board.h"
 
 void repaintHolder() {
+    if (gameMode & CLASSIC_MODE) {
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
+		SDL_FRect rect = {boardCoordinateX - BLOCK_SIZE * 7, boardCoordinateY, BLOCK_SIZE * 6, BLOCK_SIZE * 4};
+        SDL_RenderFillRect(renderer, &rect);
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_RenderRect(renderer, &rect);
+		return;
+	}
 	SDL_FRect rect = {boardCoordinateX - BLOCK_SIZE * 7, boardCoordinateY, BLOCK_SIZE * 6, BLOCK_SIZE * 4};
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
     SDL_RenderFillRect(renderer, &rect);
