@@ -93,7 +93,6 @@ void repaint() {
         SDL_RenderPresent(renderer);
 		return;
 	}
-	scoreText->rect.y = ROW * BLOCK_SIZE + boardCoordinateY;
 	char* scoreToText = "";
 	int tmp = currentScore;
 	while (tmp) {
@@ -107,11 +106,11 @@ void repaint() {
 		len = 1;
 	}
 	scoreToText = concatenate_strings("Score: ", scoreToText);
-	cout << scoreToText << "\n";
-	scoreText->text = scoreToText;
 	repaintBoard();
 	repaintQueue();
 	repaintHolder();
+	// Render score
+	scoreText = createText(renderer, 600, boardCoordinateY + ROW * BLOCK_SIZE, 240, 40, scoreToText, normalColor, fontNormal22);
 	renderText(renderer, scoreText);
 
     SDL_RenderPresent(renderer); 
@@ -196,6 +195,5 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 	hardRockButton = createButton(renderer, 775, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
 	doubleTimeButton = createButton(renderer, 1000, 170, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
 	playButton = createButton(renderer, 620, 570, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold28);
-	scoreText = createText(renderer, 600, 40, 240, 40, "Score", normalColor, fontNormal22);
 	return SDL_APP_CONTINUE;
 }
