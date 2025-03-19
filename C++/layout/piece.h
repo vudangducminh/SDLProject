@@ -28,22 +28,22 @@ bool isOccupied(int x, int y) {
 
 bool checkT(int x, int y, int direction) {
     if (direction == DEGREE_0) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_90) {
-        if (x < 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x < 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x + 1, y + 10)) == 0;
     }
     
     else if (direction == DEGREE_180) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x, y + 11)) == 0;
     }
     
     else {
-        if (x <= 0 || x >= COL || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x - 1, y + 10)) == 0;
     }
     return true;
@@ -96,7 +96,7 @@ void removeT(int x, int y, int direction) {
 }
 
 bool checkO(int x, int y, int direction) {
-    if (x < 0 || x >= COL - 1 || y >= ROW || y <= -2) return false;
+    if (x < 0 || x >= COL - 1 || y >= ROW || y <= -5) return false;
     return (isOccupied(x, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x, y + 9) + state[x + 1][y + 9]) == 0;
 }
 
@@ -114,22 +114,22 @@ void removeO(int x, int y, int direction) {
 
 bool checkJ(int x, int y, int direction) {
     if (direction == DEGREE_0) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x - 1, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_90) {
-        if (x < 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x < 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x + 1, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_180) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x + 1, y + 11)) == 0;
     }
     
     else {
-        if (x <= 0 || x >= COL || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x - 1, y + 11)) == 0;
     }
     return true;
@@ -184,22 +184,22 @@ void removeJ(int x, int y, int direction) {
 
 bool checkL(int x, int y, int direction) {
     if (direction == DEGREE_0) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x + 1, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_90) {
-        if (x < 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x < 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x + 1, y + 11)) == 0;
     }
     
     else if (direction == DEGREE_180) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x - 1, y + 11)) == 0;
     }
     
     else {
-        if (x <= 0 || x >= COL || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x - 1, y + 9)) == 0;
     }
     return true;
@@ -253,22 +253,22 @@ void removeL(int x, int y, int direction) {
 
 bool checkS(int x, int y, int direction) {
     if (direction == DEGREE_0) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 9) + isOccupied(x, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_90) {
-        if (x < 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x < 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 9) + isOccupied(x + 1, y + 11) + isOccupied(x, y + 10) + isOccupied(x + 1, y + 10)) == 0;
     }
     
     else if (direction == DEGREE_180) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 11) + isOccupied(x + 1, y + 10) + isOccupied(x, y + 11)) == 0;
     }
     
     else {
-        if (x <= 0 || x >= COL || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x - 1, y + 9) + isOccupied(x, y + 11) + isOccupied(x, y + 10) + isOccupied(x - 1, y + 10)) == 0;
     }
     return true;
@@ -322,22 +322,22 @@ void removeS(int x, int y, int direction) {
 
 bool checkZ(int x, int y, int direction) {
     if (direction == DEGREE_0) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 9) + isOccupied(x + 1, y + 10) + isOccupied(x, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_90) {
-        if (x < 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x < 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x, y + 11) + isOccupied(x + 1, y + 9) + isOccupied(x + 1, y + 10)) == 0;
     }
     
     else if (direction == DEGREE_180) {
-        if (x <= 0 || x >= COL - 1 || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL - 1 || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x, y + 11) + isOccupied(x + 1, y + 11)) == 0;
     }
     
     else {
-        if (x <= 0 || x >= COL || y <= -2 || y >= ROW - 1) return false;
+        if (x <= 0 || x >= COL || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x, y + 9) + isOccupied(x - 1, y + 10) + isOccupied(x - 1, y + 11)) == 0;
     }
     return true;
@@ -391,22 +391,22 @@ void removeZ(int x, int y, int direction) {
 
 bool checkI(int x, int y, int direction) {
     if (direction == DEGREE_0) {
-        if (x <= 0 || x >= COL - 2 || y <= -2 || y >= ROW) return false;
+        if (x <= 0 || x >= COL - 2 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x + 1, y + 10) + isOccupied(x + 2, y + 10)) == 0;
     }
     
     else if (direction == DEGREE_90) {
-        if (x < 0 || x >= COL || y <= -2 || y >= ROW - 2) return false;
+        if (x < 0 || x >= COL || y <= -5 || y >= ROW - 2) return false;
         return (isOccupied(x, y + 10) + isOccupied(x, y + 11) + isOccupied(x, y + 12) + isOccupied(x, y + 9)) == 0;
     }
     
     else if (direction == DEGREE_180) {
-        if (x <= 1 || x >= COL - 1 || y <= -2 || y >= ROW) return false;
+        if (x <= 1 || x >= COL - 1 || y <= -5 || y >= ROW) return false;
         return (isOccupied(x - 2, y + 10) + isOccupied(x - 1, y + 10) + isOccupied(x, y + 10) + isOccupied(x + 1, y + 10)) == 0;
     }
     
     else {
-        if (x < 0 || x >= COL || y <= -2 || y >= ROW - 1) return false;
+        if (x < 0 || x >= COL || y <= -5 || y >= ROW - 1) return false;
         return (isOccupied(x, y + 10) + isOccupied(x, y + 11) + isOccupied(x, y + 8) + isOccupied(x, y + 9)) == 0;
     }
     return true;

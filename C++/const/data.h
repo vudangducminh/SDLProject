@@ -97,7 +97,7 @@ void initializeDroppingSpeed() {
     for (int i = 1; i <= 5; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 3;
     for (int i = 6; i <= 25; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 2;
     for (int i = 26; i <= 30; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 1;
-    for (int i = 1; i <= 30; i++) maxDropDelay[i] = max(FPS, min(droppingSpeed[i] * 8, DEFAULT_MAX_DROP_DELAY));
+    for (int i = 1; i <= 30; i++) maxDropDelay[i] = max(FPS, min(droppingSpeed[i] * 30, DEFAULT_MAX_DROP_DELAY));
 }
 // Game state
 int state[40][40];
