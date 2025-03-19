@@ -5,6 +5,7 @@
 #include<SDL3_ttf/SDL_ttf.h>
 #include<SDL3_image/SDL_image.h>
 #include <unistd.h>
+#include "algorithm.h"
 #include "const/data.h"
 #include "const/UI.h"
 #include "layout/piece.h"
@@ -80,6 +81,7 @@ void update() {
 
 void repaint() {
 	if (!isPlaying) {
+		// Set home screen (button & stuff)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         renderButton(renderer, classicModeButton);
@@ -91,10 +93,27 @@ void repaint() {
         SDL_RenderPresent(renderer);
 		return;
 	}
+	scoreText->rect.y = ROW * BLOCK_SIZE + boardCoordinateY;
+	char* scoreToText = "";
+	int tmp = currentScore;
+	while (tmp) {
+		char* ch = char_to_char_ptr((char) (tmp % 10 + 48));
+		scoreToText = concatenate_strings(ch, scoreToText);
+		tmp /= 10;
+	}
+	int len = strlen(scoreToText);
+	if (!len) {
+		scoreToText = "0";
+		len = 1;
+	}
+	scoreToText = concatenate_strings("Score: ", scoreToText);
+	cout << scoreToText << "\n";
+	scoreText->text = scoreToText;
 	repaintBoard();
 	repaintQueue();
 	repaintHolder();
-	
+	renderText(renderer, scoreText);
+
     SDL_RenderPresent(renderer); 
 	
 }
@@ -156,8 +175,13 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
     }
 
-	fontBold = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 28);
-	if (!fontBold) {
+	fontBold28 = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 28);
+	if (!fontBold28) {
+		SDL_Log("Error loading font: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+    }
+	fontNormal22 = TTF_OpenFont("C++/Fonts/Commissioner-Medium.ttf", 22);
+	if (!fontNormal22) {
 		SDL_Log("Error loading font: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
     }
@@ -166,12 +190,12 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 	initializeDroppingSpeed();
 	initializeColor();
 
-	classicModeButton = createButton(renderer, 100, 170, 200, 50, "Classic", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	chaosButton = createButton(renderer, 325, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	hiddenButton = createButton(renderer, 550, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	hardRockButton = createButton(renderer, 775, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	doubleTimeButton = createButton(renderer, 1000, 170, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold);
-	playButton = createButton(renderer, 620, 570, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold);
-
+	classicModeButton = createButton(renderer, 100, 170, 200, 50, "Classic", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	chaosButton = createButton(renderer, 325, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	hiddenButton = createButton(renderer, 550, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	hardRockButton = createButton(renderer, 775, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	doubleTimeButton = createButton(renderer, 1000, 170, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	playButton = createButton(renderer, 620, 570, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold28);
+	scoreText = createText(renderer, 600, 40, 240, 40, "Score", normalColor, fontNormal22);
 	return SDL_APP_CONTINUE;
 }

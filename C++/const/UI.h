@@ -26,6 +26,7 @@ Button* blindfoldButton;
 Button* cheeseButton;
 Button* playButton;
 Text* errorText;
+Text* scoreText;
 
 // Button color
 SDL_Color normalColor = {200, 200, 200, 255};
@@ -33,7 +34,8 @@ SDL_Color hoverColor = {255, 255, 255, 32};
 SDL_Color textColor = {0, 0, 0, 255};
 
 // Fonts
-TTF_Font* fontBold;
+TTF_Font* fontBold28;
+TTF_Font* fontNormal22;
 
 
 #endif
