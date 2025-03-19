@@ -9,9 +9,9 @@ int currentShadowRow = -1;
 void updateShadowPiece(int piece, int &x, int &y, int &d) {
     int cnt = 0;
     for (int j = y; j < ROW; j++) {
-        // if (cnt == 4) break;
+        if (cnt == 4) break;
         for (int i = 0; i < COL; i++) {
-            // if (cnt == 4) break;
+            if (cnt == 4) break;
             if (state[i][j + 10] == SHADOW_PIECE) {
                 state[i][j + 10] = 0;
                 cnt++;
