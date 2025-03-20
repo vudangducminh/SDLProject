@@ -40,14 +40,14 @@ void reloadBatch() {
 void repaintQueue() {
 	if (gameMode & HIDDEN_MODE || gameMode & CLASSIC_MODE) {
 		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 200);
-		SDL_FRect rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, BLOCK_SIZE * 4, BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
+		SDL_FRect rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, NORMAL_BLOCK_SIZE * 4, NORMAL_BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
 		SDL_RenderFillRect(renderer, &rect);
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 		SDL_RenderRect(renderer, &rect);
 		return;
 	}
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
-	SDL_FRect rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, BLOCK_SIZE * 4, BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
+	SDL_FRect rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, NORMAL_BLOCK_SIZE * 4, NORMAL_BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
 	SDL_RenderFillRect(renderer, &rect);
 
 	vector<int> tmp;
@@ -55,8 +55,8 @@ void repaintQueue() {
 		int piece = currentQueue.front(); 
 		currentQueue.pop_front();
 		tmp.push_back(piece);
-		int x = (BLOCK_SIZE - MINI_BLOCK_SIZE) * 2 + boardCoordinateX + (COL + 1) * BLOCK_SIZE;
-		int y = boardCoordinateY + (i - 1) * 3 * BLOCK_SIZE;
+		int x = (NORMAL_BLOCK_SIZE - MINI_BLOCK_SIZE) * 2 + boardCoordinateX + (COL + 1) * BLOCK_SIZE;
+		int y = boardCoordinateY + (i - 1) * 3 * NORMAL_BLOCK_SIZE;
 		paintPiece(piece, x, y, MINI_BLOCK_SIZE);
 
 	}
@@ -66,7 +66,7 @@ void repaintQueue() {
 		tmp.pop_back();
 	}
 
-	rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, BLOCK_SIZE * 4, BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
+	rect = {boardCoordinateX + (COL + 1) * BLOCK_SIZE, boardCoordinateY, NORMAL_BLOCK_SIZE * 4, NORMAL_BLOCK_SIZE * 3 * QUEUE_SIZE + 30};
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderRect(renderer, &rect);
 }

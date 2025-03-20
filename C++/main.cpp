@@ -9,6 +9,7 @@
 #include "const/data.h"
 #include "const/UI.h"
 #include "layout/piece.h"
+#include "layout/stat.h"
 #include "gameplay/dropping.h"
 #include "gameplay/shadow_piece.h"
 #include "gameplay/clear_lines.h"
@@ -46,6 +47,7 @@ void update() {
 		if (gameMode & DOUBLE_TIME_MODE) {
 			currentLevel += 20;
 			ROW = 10;
+			BLOCK_SIZE = 60;
 		}
 		initializeBoard(ROW, COL, QUEUE_SIZE);
 		cap = droppingSpeed[currentLevel];
@@ -93,26 +95,14 @@ void repaint() {
         SDL_RenderPresent(renderer);
 		return;
 	}
-	char* scoreToText = "";
-	int tmp = currentScore;
-	while (tmp) {
-		char* ch = char_to_char_ptr((char) (tmp % 10 + 48));
-		scoreToText = concatenate_strings(ch, scoreToText);
-		tmp /= 10;
-	}
-	int len = strlen(scoreToText);
-	if (!len) {
-		scoreToText = "0";
-		len = 1;
-	}
-	scoreToText = concatenate_strings("Score: ", scoreToText);
+	
 	repaintBoard();
 	repaintQueue();
 	repaintHolder();
-	// Render score
-	scoreText = createText(renderer, 600, boardCoordinateY + ROW * BLOCK_SIZE, 240, 40, scoreToText, normalColor, fontNormal22);
-	renderText(renderer, scoreText);
-
+	// Render stats
+	renderScore();
+	renderLinesCleared();
+	renderLevel();
     SDL_RenderPresent(renderer); 
 	
 }
@@ -179,8 +169,8 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		SDL_Log("Error loading font: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
     }
-	fontNormal22 = TTF_OpenFont("C++/Fonts/Commissioner-Medium.ttf", 22);
-	if (!fontNormal22) {
+	fontBold22 = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 22);
+	if (!fontBold22) {
 		SDL_Log("Error loading font: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
     }

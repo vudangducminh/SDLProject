@@ -45,13 +45,39 @@ Text* createText(SDL_Renderer* renderer, int x, int y, int w, int h,
     return newText;
 }
 
-void renderText(SDL_Renderer* renderer, Text* newText) {
+void renderTextCenter(SDL_Renderer* renderer, Text* newText) {
     float textWidth, textHeight;
     SDL_GetTextureSize(newText->texture, &textWidth, &textHeight);
 
     SDL_FRect textRect;
     textRect.x = newText->rect.x + (newText->rect.w - textWidth) / 2;
     textRect.y = newText->rect.y + (newText->rect.h - textHeight) / 2;
+    textRect.w = (float)textWidth;
+    textRect.h = (float)textHeight;
+
+    SDL_RenderTexture(renderer, newText->texture, NULL, &textRect);
+}
+
+void renderTextLeft(SDL_Renderer* renderer, Text* newText) {
+    float textWidth, textHeight;
+    SDL_GetTextureSize(newText->texture, &textWidth, &textHeight);
+
+    SDL_FRect textRect;
+    textRect.x = newText->rect.x;
+    textRect.y = newText->rect.y;
+    textRect.w = (float)textWidth;
+    textRect.h = (float)textHeight;
+
+    SDL_RenderTexture(renderer, newText->texture, NULL, &textRect);
+}
+
+void renderTextRight(SDL_Renderer* renderer, Text* newText) {
+    float textWidth, textHeight;
+    SDL_GetTextureSize(newText->texture, &textWidth, &textHeight);
+
+    SDL_FRect textRect;
+    textRect.x = newText->rect.x + (newText->rect.w - textWidth);
+    textRect.y = newText->rect.y + (newText->rect.h - textHeight);
     textRect.w = (float)textWidth;
     textRect.h = (float)textHeight;
 

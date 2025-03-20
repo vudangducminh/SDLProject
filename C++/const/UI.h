@@ -27,6 +27,8 @@ Button* cheeseButton;
 Button* playButton;
 Text* errorText;
 Text* scoreText;
+Text* linesClearedText;
+Text* levelText;
 
 // Button color
 SDL_Color normalColor = {200, 200, 200, 255};
@@ -35,7 +37,7 @@ SDL_Color textColor = {0, 0, 0, 255};
 
 // Fonts
 TTF_Font* fontBold28;
-TTF_Font* fontNormal22;
+TTF_Font* fontBold22;
 
 
 #endif
