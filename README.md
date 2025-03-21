@@ -1,5 +1,5 @@
 # SDLProject
-Note: I configures the setting based on my configuration in tetr.io (looks pretty weird because my left and right arrows are malfunctioning in my laptop)
+Note: I configured the setting based on my configuration in tetr.io (looks pretty weird because my left and right arrows are malfunctioning in my laptop)
 - ',' to move pieces to the left
 - '/' to move pieces to the right
 - '.' to soft drop
