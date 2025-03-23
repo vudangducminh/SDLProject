@@ -4,7 +4,6 @@
 #include<bits/stdc++.h>
 #include<SDL3/SDL.h>
 #include<SDL3/SDL_main.h>
-#include "../gameplay/board.h"
 #include "../const/data.h"
 using namespace std;
 
@@ -19,6 +18,7 @@ void initializeColor() {
     COLOR[PIECE_I] = {0, 255, 255, 255};
     COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
     COLOR[BLIND_COLOR] = {128, 128, 128, 204};
+    COLOR[GARBAGE] = {178, 178, 178, 255};
 }
 
 bool isOccupied(int x, int y) {

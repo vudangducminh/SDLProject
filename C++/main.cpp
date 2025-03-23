@@ -67,6 +67,7 @@ void update() {
 	keyboardStateUpdate();
 	if (!dropping(currentPiece, currentX, currentY, currentD)) {
 		linesCleared = clearLines();
+		updateClearLinesText(linesCleared);
 		totalLinesCleared += linesCleared;
 		currentScore += calculateScore(linesCleared);
 		numberOfPiece++;
@@ -79,6 +80,20 @@ void update() {
 		}
 		currentShadowRow = -1;
 	}
+
+	// Add cheese
+	currentCheeseLines++;
+	if (currentCheeseLines == nextCheeseLines) {
+		if (addCheese(1)) {
+			currentCheeseLines = 0;
+			nextCheeseLines = max(FPS / 3, nextCheeseLines - 1);
+		} else {
+			gameOver = true;
+		}
+	}
+
+	// Update clear-lines text
+	if (currentClearLinesTextFrame < clearLinesTextDuration) currentClearLinesTextFrame++; 
 }
 
 void repaint() {
@@ -105,6 +120,7 @@ void repaint() {
 	renderScore();
 	renderLinesCleared();
 	renderLevel();
+	renderClearLinesText(linesCleared);
     SDL_RenderPresent(renderer); 
 	
 }
@@ -165,6 +181,12 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 	if(!TTF_Init()) {
         std::cerr << "SDL_ttf Init Failed: " << std::endl;
         SDL_Quit();
+		return SDL_APP_FAILURE;
+    }
+
+	fontRegular40 = TTF_OpenFont("C++/Fonts/Commissioner-Regular.ttf", 40);
+	if (!fontRegular40) {
+		SDL_Log("Error loading font: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
     }
 

@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "../const/data.h"
+#include "../layout/piece.h"
 using namespace std;
 
 void initializeBoard(int row, int col, int queueSize) {
@@ -34,7 +35,7 @@ void repaintBoard() {
 			rect = {(float) i * BLOCK_SIZE + boardCoordinateX, (float) (j - 10) * BLOCK_SIZE + boardCoordinateY, BLOCK_SIZE, BLOCK_SIZE};
 			if (state[i][j] || (!state[i][j] && j >= 10)) {
 				if (gameMode & FLASHLIGHT_MODE) {
-					if (dist < visualRadius * visualRadius) {
+					if (dist < visualRadius * visualRadius || gameOver) {
 						SDL_SetRenderDrawColor(renderer, COLOR[state[i][j]].r, COLOR[state[i][j]].g, COLOR[state[i][j]].b, COLOR[state[i][j]].a);
 					} else {
 						SDL_SetRenderDrawColor(renderer, COLOR[BLIND_COLOR].r, COLOR[BLIND_COLOR].g, COLOR[BLIND_COLOR].b, COLOR[BLIND_COLOR].a);
@@ -56,7 +57,34 @@ void repaintBoard() {
 	SDL_RenderRect(renderer, &rect);
 }
 
-void addCheese(int lines) {
-	
+bool addCheese(int lines) {
+	removePiece(currentPiece, currentX, currentY, currentD);
+	for (int j = 0; j < ROW + 10 - lines; j++) {
+		for (int i = 0; i < COL; i++) {
+			state[i][j] = state[i][j + lines];
+		}
+	}
+	for (int j = ROW + 10 - lines; j < ROW + 10; j++) {
+		int nullCell = rng() % COL;
+		for (int i = 0; i < COL; i++) {
+			if (i == nullCell) state[i][j] = 0;
+			else state[i][j] = GARBAGE;
+		}
+	}
+	if (checkPiece(currentPiece, currentX, currentY, currentD)) {
+		fillPiece(currentPiece, currentX, currentY, currentD);
+	} else if (checkPiece(currentPiece, currentX, currentY - 1, currentD)) {
+		currentY--;
+		fillPiece(currentPiece, currentX, currentY, currentD);
+	} else if (checkPiece(currentPiece, currentX, currentY - 2, currentD)) {
+		currentY -= 2;
+		fillPiece(currentPiece, currentX, currentY, currentD);
+	}
+	else {
+		currentY -= 3;
+		fillPiece(currentPiece, currentX, currentY, currentD);
+		return 0;
+	}
+	return 1;
 }
 #endif

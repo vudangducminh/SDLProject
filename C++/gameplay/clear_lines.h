@@ -3,6 +3,7 @@
 
 #include<bits/stdc++.h>
 #include "../layout/piece.h"
+#include "../const/UI.h"
 #include "board.h"
 using namespace std;
 
@@ -35,4 +36,23 @@ int clearLines() {
     return lines;
 }
 
+void updateClearLinesText(int lines) {
+    if (!lines) return;
+    currentClearLinesTextFrame = 0;
+}
+void renderClearLinesText(int lines) {
+    if (currentClearLinesTextFrame == clearLinesTextDuration || !lines) return;
+    int x = boardCoordinateX - 140;
+    int y = boardCoordinateY + NORMAL_BLOCK_SIZE * 4 + 100;
+    char* text = "QUAD";
+    if (lines == 3) {
+        text = "TRIPLE";
+    } else if (lines == 2) {
+        text = "DOUBLE";
+    } else if (lines == 1) {
+        text = "SINGLE";
+    }
+    clearLinesText = createText(renderer, x, y, 104, 30, text, normalColor, fontRegular40);
+    renderTextRight(renderer, clearLinesText);
+}
 #endif

@@ -119,9 +119,14 @@ int totalLinesCleared = 0, linesCleared = 0;
 int currentScore = 0, currentLevel = 1;
 bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
 double curGameTime = 0, startGameTime = 0;
+
 // Current piece index
 int currentPiece = -1, currentX = 4, currentY = -1, currentD = 0;
+
 // For flashlight mode
 int visualRadius = 5;
+
+// For cheese mode
+int nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
 #endif
