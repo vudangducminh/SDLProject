@@ -40,6 +40,8 @@ const int DEGREE_90 = 1;
 const int DEGREE_180 = 2;
 const int DEGREE_270 = 3;
 const int SHADOW_PIECE = (1 << 20) - 1;
+const int GARBAGE = (1 << 20) - 2;
+const int BLIND_COLOR = (1 << 20) - 3;
 const int PIECE_T = 7;
 const int PIECE_I = 6;
 const int PIECE_O = 5;
@@ -89,6 +91,7 @@ const int CHAOS_MODE = 2;
 const int HIDDEN_MODE = 4;
 const int HARD_ROCK_MODE = 8;
 const int DOUBLE_TIME_MODE = 16;
+const int FLASHLIGHT_MODE = 32;
 
 int droppingSpeed[31], maxDropDelay[31];
 
@@ -115,4 +118,9 @@ int totalLinesCleared = 0, linesCleared = 0;
 int currentScore = 0, currentLevel = 1;
 bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
 double curGameTime = 0, startGameTime = 0;
+// Current piece index
+int currentPiece = -1, currentX = 4, currentY = -1, currentD = 0;
+// For flashlight mode
+int visualRadius = 5;
+
 #endif

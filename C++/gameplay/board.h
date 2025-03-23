@@ -5,7 +5,6 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "../const/data.h"
-// #include "piece.h"
 using namespace std;
 
 void initializeBoard(int row, int col, int queueSize) {
@@ -31,12 +30,18 @@ void repaintBoard() {
 	SDL_RenderFillRect(renderer, &rect);
 	for (int j = 0; j < ROW + 10; j++) {
 		for (int i = 0; i < COL; i++) {
+			int dist = (j - 10 - currentY) * (j - 10 - currentY) + (i - currentX) * (i - currentX);
 			rect = {(float) i * BLOCK_SIZE + boardCoordinateX, (float) (j - 10) * BLOCK_SIZE + boardCoordinateY, BLOCK_SIZE, BLOCK_SIZE};
 			if (state[i][j] || (!state[i][j] && j >= 10)) {
-				SDL_SetRenderDrawColor(renderer, COLOR[state[i][j]].r, COLOR[state[i][j]].g, COLOR[state[i][j]].b, COLOR[state[i][j]].a);
+				if ((gameMode & FLASHLIGHT_MODE) && (dist < visualRadius * visualRadius)) {
+					SDL_SetRenderDrawColor(renderer, COLOR[state[i][j]].r, COLOR[state[i][j]].g, COLOR[state[i][j]].b, COLOR[state[i][j]].a);
+				} else {
+					SDL_SetRenderDrawColor(renderer, COLOR[BLIND_COLOR].r, COLOR[BLIND_COLOR].g, COLOR[BLIND_COLOR].b, COLOR[BLIND_COLOR].a);
+				}
 				SDL_RenderFillRect(renderer, &rect);
 			}
 			if (j >= 10) {
+				// Render cells inside the board
 				SDL_SetRenderDrawColor(renderer, 178, 178, 178, 58);
 				SDL_RenderRect(renderer, &rect);
 			}

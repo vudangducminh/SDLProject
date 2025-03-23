@@ -8,8 +8,6 @@
 #include "../const/data.h"
 using namespace std;
 
-int currentPiece = -1, currentX = 4, currentY = -1, currentD = 0;
-
 void initializeColor() {
     COLOR[0] = {0, 0, 0, 255}; 
     COLOR[PIECE_T] = {128, 0, 128, 255}; 
@@ -20,6 +18,7 @@ void initializeColor() {
     COLOR[PIECE_Z] = {255, 0, 0, 255};
     COLOR[PIECE_I] = {0, 255, 255, 255};
     COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
+    COLOR[BLIND_COLOR] = {128, 128, 128, 204};
 }
 
 bool isOccupied(int x, int y) {
