@@ -78,6 +78,9 @@ void handleClickedEvent(Button* button) {
     if ((string) button->text == "Flashlight") {
         gameMode ^= FLASHLIGHT_MODE;
     }
+    if ((string) button->text == "Cheese") {
+        gameMode ^= CHEESE_MODE;
+    }
     if ((string) button->text == "Play!") {
         if (gameMode) isPlaying = true;
         else isPlaying = false;
@@ -123,6 +126,10 @@ void renderButton(SDL_Renderer* renderer, Button* button) {
     }
     if ((string) button->text == "Flashlight") {
         if (gameMode & FLASHLIGHT_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Cheese") {
+        if (gameMode & CHEESE_MODE) button->bgColor = SELECTED_COLOR;
         else button->bgColor = DESELECTED_COLOR;
     }
     SDL_Color currentColor = button->isHovered ? button->hoverColor : button->bgColor;

@@ -93,6 +93,7 @@ void repaint() {
         renderButton(renderer, hardRockButton);
         renderButton(renderer, doubleTimeButton);
         renderButton(renderer, flashlightButton);
+        renderButton(renderer, cheeseButton);
         SDL_RenderPresent(renderer);
 		return;
 	}
@@ -120,6 +121,7 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
 	handleButtonEvent(hardRockButton, event);
 	handleButtonEvent(doubleTimeButton, event);
 	handleButtonEvent(flashlightButton, event);
+	handleButtonEvent(cheeseButton, event);
 	return SDL_APP_CONTINUE;
 }
 
@@ -187,6 +189,7 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 	hardRockButton = createButton(renderer, 775, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
 	doubleTimeButton = createButton(renderer, 1000, 170, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
 	flashlightButton = createButton(renderer, 100, 250, 200, 50, "Flashlight", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	cheeseButton = createButton(renderer, 325, 250, 200, 50, "Cheese", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
 	playButton = createButton(renderer, 620, 570, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold28);
 	return SDL_APP_CONTINUE;
 }

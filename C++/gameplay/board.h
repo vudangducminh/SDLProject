@@ -33,10 +33,14 @@ void repaintBoard() {
 			int dist = (j - 10 - currentY) * (j - 10 - currentY) + (i - currentX) * (i - currentX);
 			rect = {(float) i * BLOCK_SIZE + boardCoordinateX, (float) (j - 10) * BLOCK_SIZE + boardCoordinateY, BLOCK_SIZE, BLOCK_SIZE};
 			if (state[i][j] || (!state[i][j] && j >= 10)) {
-				if ((gameMode & FLASHLIGHT_MODE) && (dist < visualRadius * visualRadius)) {
-					SDL_SetRenderDrawColor(renderer, COLOR[state[i][j]].r, COLOR[state[i][j]].g, COLOR[state[i][j]].b, COLOR[state[i][j]].a);
+				if (gameMode & FLASHLIGHT_MODE) {
+					if (dist < visualRadius * visualRadius) {
+						SDL_SetRenderDrawColor(renderer, COLOR[state[i][j]].r, COLOR[state[i][j]].g, COLOR[state[i][j]].b, COLOR[state[i][j]].a);
+					} else {
+						SDL_SetRenderDrawColor(renderer, COLOR[BLIND_COLOR].r, COLOR[BLIND_COLOR].g, COLOR[BLIND_COLOR].b, COLOR[BLIND_COLOR].a);
+					}
 				} else {
-					SDL_SetRenderDrawColor(renderer, COLOR[BLIND_COLOR].r, COLOR[BLIND_COLOR].g, COLOR[BLIND_COLOR].b, COLOR[BLIND_COLOR].a);
+					SDL_SetRenderDrawColor(renderer, COLOR[state[i][j]].r, COLOR[state[i][j]].g, COLOR[state[i][j]].b, COLOR[state[i][j]].a);
 				}
 				SDL_RenderFillRect(renderer, &rect);
 			}
@@ -52,4 +56,7 @@ void repaintBoard() {
 	SDL_RenderRect(renderer, &rect);
 }
 
+void addCheese(int lines) {
+	
+}
 #endif

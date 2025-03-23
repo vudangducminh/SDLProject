@@ -92,6 +92,7 @@ const int HIDDEN_MODE = 4;
 const int HARD_ROCK_MODE = 8;
 const int DOUBLE_TIME_MODE = 16;
 const int FLASHLIGHT_MODE = 32;
+const int CHEESE_MODE = 64;
 
 int droppingSpeed[31], maxDropDelay[31];
 
