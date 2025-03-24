@@ -23,16 +23,13 @@ Button* hardRockButton;
 Button* doubleTimeButton;
 Button* flashlightButton;
 Button* cheeseButton;   
+Button* mirrorButton;   
 Button* playButton;
 Text* errorText;
 Text* scoreText;
 Text* linesClearedText;
 Text* levelText;
 Text* clearLinesText;
-
-// clearLinesText duration
-const int clearLinesTextDuration = FPS * 4;
-int currentClearLinesTextFrame = 0;
 
 // Button color
 SDL_Color normalColor = {200, 200, 200, 255};

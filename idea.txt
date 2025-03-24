@@ -1,4 +1,1 @@
-- switch piece color (or totally randomize) (mods)
-- reverse board upside down (mods)
-- add cheese mod (mods)
-- 
+- Note: Bug button color after using esc key

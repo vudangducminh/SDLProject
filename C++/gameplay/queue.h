@@ -9,9 +9,6 @@
 #include "board.h"
 using namespace std;
 
-vector<int> newBatch;
-deque<int> currentQueue;
-
 void reloadBatch() {
 	if (currentQueue.size() > QUEUE_SIZE) return;
 	newBatch.clear();

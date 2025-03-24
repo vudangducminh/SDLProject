@@ -81,6 +81,9 @@ void handleClickedEvent(Button* button) {
     if ((string) button->text == "Cheese") {
         gameMode ^= CHEESE_MODE;
     }
+    if ((string) button->text == "Mirror") {
+        gameMode ^= MIRROR_MODE;
+    }
     if ((string) button->text == "Play!") {
         if (gameMode) isPlaying = true;
         else isPlaying = false;
@@ -130,6 +133,10 @@ void renderButton(SDL_Renderer* renderer, Button* button) {
     }
     if ((string) button->text == "Cheese") {
         if (gameMode & CHEESE_MODE) button->bgColor = SELECTED_COLOR;
+        else button->bgColor = DESELECTED_COLOR;
+    }
+    if ((string) button->text == "Mirror") {
+        if (gameMode & MIRROR_MODE) button->bgColor = SELECTED_COLOR;
         else button->bgColor = DESELECTED_COLOR;
     }
     SDL_Color currentColor = button->isHovered ? button->hoverColor : button->bgColor;

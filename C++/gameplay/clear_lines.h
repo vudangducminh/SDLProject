@@ -36,7 +36,7 @@ int clearLines() {
     return lines;
 }
 
-void updateClearLinesText(int lines) {
+void updateClearLinesText (int lines) {
     if (!lines) return;
     currentClearLinesTextFrame = 0;
 }

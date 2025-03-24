@@ -84,6 +84,8 @@ const int rotate_180_key = SDL_SCANCODE_A;
 const int holdPieceKey = SDL_SCANCODE_C;
 const int softDropKey = SDL_SCANCODE_PERIOD;
 const int hardDropKey = SDL_SCANCODE_SPACE;
+const int retryKey = SDL_SCANCODE_R;
+const int escapeKey = SDL_SCANCODE_ESCAPE;
 
 // Mods
 const int CLASSIC_MODE = 1;
@@ -93,6 +95,7 @@ const int HARD_ROCK_MODE = 8;
 const int DOUBLE_TIME_MODE = 16;
 const int FLASHLIGHT_MODE = 32;
 const int CHEESE_MODE = 64;
+const int MIRROR_MODE = 128;
 
 int droppingSpeed[31], maxDropDelay[31];
 
@@ -107,9 +110,11 @@ void initializeDroppingSpeed() {
 // Game state
 int state[40][40];
 int gameMode = 0;
+vector<int> newBatch;
+deque<int> currentQueue;
 float boardCoordinateX, boardCoordinateY;
 bool gameOver = false;
-int currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0;
+int currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0, currentRetryFrame = 0, currentEscapeFrame = 0;
 int currentDroppingFrame = 0, cap = DEFAULT_MAX_DROP_DELAY;
 int isMoved = MOVING_DETECTION_BY_FRAME;
 int spawnTime = FPS / 10;
@@ -128,5 +133,51 @@ int visualRadius = 5;
 
 // For cheese mode
 int nextCheeseLines = FPS * 4, currentCheeseLines = 0;
+
+// For mirror mode
+int nextMirrorTime = max(300ull, rng() % 720 + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+
+// clearLinesText duration
+const int clearLinesTextDuration = FPS * 4;
+int currentClearLinesTextFrame = 0;
+
+void resetAllGameState() {
+    memset(state, 0, sizeof(state));
+    gameOver = false;
+    isInitialized = false;
+    newBatch.clear();
+    currentQueue.clear();
+    currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0;
+    currentDroppingFrame = 0, cap = DEFAULT_MAX_DROP_DELAY;
+    isMoved = MOVING_DETECTION_BY_FRAME;
+    spawnTime = FPS / 10;
+    holdingPiece = 0;
+    numberOfPiece = 0, maxPieceID = 0;
+    totalLinesCleared = 0, linesCleared = 0;
+    currentScore = 0, currentLevel = 1;
+    isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true;
+    curGameTime = 0, startGameTime = 0;
+
+    // Current piece index
+    currentPiece = -1, currentX = 4, currentY = -1, currentD = 0;
+
+    // For flashlight mode
+    visualRadius = 5;
+
+    // For cheese mode
+    nextCheeseLines = FPS * 4, currentCheeseLines = 0;
+
+    // For mirror mode
+    nextMirrorTime = max(300ull, rng() % 720 + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+
+    // clearLinesText duration
+    currentClearLinesTextFrame = 0;
+}
+
+void resetAll() {
+    resetAllGameState();
+    isPlaying = false;
+    gameMode = 0;
+}
 
 #endif

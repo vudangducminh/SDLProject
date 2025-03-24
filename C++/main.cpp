@@ -60,15 +60,20 @@ void update() {
 		currentX = 4, currentY = -1, currentD = 0; 
 		isMoved = 30; spawnTime = FPS / 10;
 	}
+	keyboardStateUpdate();
 	if (gameOver) {
 		// Lose
 		return;
 	}
-	keyboardStateUpdate();
 	if (!dropping(currentPiece, currentX, currentY, currentD)) {
 		linesCleared = clearLines();
 		updateClearLinesText(linesCleared);
 		totalLinesCleared += linesCleared;
+		if (gameMode & FLASHLIGHT_MODE) {
+			if (totalLinesCleared >= 50) visualRadius = 4;
+			if (totalLinesCleared >= 100) visualRadius = 3;
+			if (totalLinesCleared >= 150) visualRadius = 2;
+		}
 		currentScore += calculateScore(linesCleared);
 		numberOfPiece++;
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
@@ -82,13 +87,27 @@ void update() {
 	}
 
 	// Add cheese
-	currentCheeseLines++;
-	if (currentCheeseLines == nextCheeseLines) {
-		if (addCheese(1)) {
-			currentCheeseLines = 0;
-			nextCheeseLines = max(FPS / 3, nextCheeseLines - 1);
-		} else {
-			gameOver = true;
+	if (gameMode & CHEESE_MODE) {
+		currentCheeseLines++;
+		if (currentCheeseLines == nextCheeseLines) {
+			int randNum = rng() % 100 + 1;
+			int numLines = randNum > 80 ? 2 : 1;
+			if (addCheese(numLines)) {
+				currentCheeseLines = 0;
+				nextCheeseLines = max(FPS / 3, nextCheeseLines - 1);
+			} else {
+				gameOver = true;
+			}
+		}
+	}
+
+	// Reverse board
+	if (gameMode & MIRROR_MODE) {
+		currentMirrorFrame++;
+		if (currentMirrorFrame == nextMirrorTime) {
+			currentMirrorFrame = 0;
+			nextMirrorTime = max(300ull, rng() % 720 + 1);
+			reverseBoardTimes++;
 		}
 	}
 
@@ -104,11 +123,12 @@ void repaint() {
         renderButton(renderer, classicModeButton);
         renderButton(renderer, chaosButton);
         renderButton(renderer, hiddenButton);
-        renderButton(renderer, playButton);
         renderButton(renderer, hardRockButton);
         renderButton(renderer, doubleTimeButton);
         renderButton(renderer, flashlightButton);
         renderButton(renderer, cheeseButton);
+        renderButton(renderer, mirrorButton);
+        renderButton(renderer, playButton);
         SDL_RenderPresent(renderer);
 		return;
 	}
@@ -122,7 +142,6 @@ void repaint() {
 	renderLevel();
 	renderClearLinesText(linesCleared);
     SDL_RenderPresent(renderer); 
-	
 }
 
 SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
@@ -133,11 +152,12 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
 	handleButtonEvent(classicModeButton, event);
 	handleButtonEvent(chaosButton, event);
 	handleButtonEvent(hiddenButton, event);
-	handleButtonEvent(playButton, event);
 	handleButtonEvent(hardRockButton, event);
 	handleButtonEvent(doubleTimeButton, event);
 	handleButtonEvent(flashlightButton, event);
 	handleButtonEvent(cheeseButton, event);
+	handleButtonEvent(mirrorButton, event);
+	handleButtonEvent(playButton, event);
 	return SDL_APP_CONTINUE;
 }
 
@@ -205,13 +225,14 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 	initializeDroppingSpeed();
 	initializeColor();
 
-	classicModeButton = createButton(renderer, 100, 170, 200, 50, "Classic", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
-	chaosButton = createButton(renderer, 325, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
-	hiddenButton = createButton(renderer, 550, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
-	hardRockButton = createButton(renderer, 775, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
-	doubleTimeButton = createButton(renderer, 1000, 170, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
-	flashlightButton = createButton(renderer, 100, 250, 200, 50, "Flashlight", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
-	cheeseButton = createButton(renderer, 325, 250, 200, 50, "Cheese", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	classicModeButton = createButton(renderer, 128, 170, 200, 50, "Classic", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	chaosButton = createButton(renderer, 456, 170, 200, 50, "Chaos", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	hiddenButton = createButton(renderer, 784, 170, 200, 50, "Hidden", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	hardRockButton = createButton(renderer, 1112, 170, 200, 50, "Hard-rock", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	doubleTimeButton = createButton(renderer, 128, 250, 200, 50, "Double time", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	flashlightButton = createButton(renderer, 456, 250, 200, 50, "Flashlight", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	cheeseButton = createButton(renderer, 784, 250, 200, 50, "Cheese", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
+	mirrorButton = createButton(renderer, 1112, 250, 200, 50, "Mirror", textColor, DESELECTED_COLOR, hoverColor, fontBold28);
 	playButton = createButton(renderer, 620, 570, 200, 50, "Play!", textColor, normalColor, hoverColor, fontBold28);
 	return SDL_APP_CONTINUE;
 }

@@ -33,6 +33,9 @@ void repaintBoard() {
 		for (int i = 0; i < COL; i++) {
 			int dist = (j - 10 - currentY) * (j - 10 - currentY) + (i - currentX) * (i - currentX);
 			rect = {(float) i * BLOCK_SIZE + boardCoordinateX, (float) (j - 10) * BLOCK_SIZE + boardCoordinateY, BLOCK_SIZE, BLOCK_SIZE};
+			if (reverseBoardTimes & 1) {
+				rect = {(float) (COL - i - 1) * BLOCK_SIZE + boardCoordinateX, (float) (ROW + 9 - j) * BLOCK_SIZE + boardCoordinateY, BLOCK_SIZE, BLOCK_SIZE};
+			}
 			if (state[i][j] || (!state[i][j] && j >= 10)) {
 				if (gameMode & FLASHLIGHT_MODE) {
 					if (dist < visualRadius * visualRadius || gameOver) {
@@ -64,8 +67,8 @@ bool addCheese(int lines) {
 			state[i][j] = state[i][j + lines];
 		}
 	}
+	int nullCell = rng() % COL;
 	for (int j = ROW + 10 - lines; j < ROW + 10; j++) {
-		int nullCell = rng() % COL;
 		for (int i = 0; i < COL; i++) {
 			if (i == nullCell) state[i][j] = 0;
 			else state[i][j] = GARBAGE;
