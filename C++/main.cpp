@@ -221,6 +221,9 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
     }
 
+	// Enable alpha 
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); 
+	
 	// Pre-load fixed data
 	initializeDroppingSpeed();
 	initializeColor();

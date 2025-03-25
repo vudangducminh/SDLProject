@@ -41,18 +41,30 @@ void updateClearLinesText (int lines) {
     currentClearLinesTextFrame = 0;
 }
 void renderClearLinesText(int lines) {
-    if (currentClearLinesTextFrame == clearLinesTextDuration || !lines) return;
+    if (currentClearLinesTextFrame == clearLinesTextDuration) {
+        clearLinesText->text = " ";
+        return;
+    }
     int x = boardCoordinateX - 140;
     int y = boardCoordinateY + NORMAL_BLOCK_SIZE * 4 + 100;
-    char* text = "QUAD";
-    if (lines == 3) {
+    char* text;
+    if (clearLinesText == NULL) {
+        text = " ";
+    } else {
+        text = clearLinesText->text;
+    }
+    if (lines == 4) {
+        text = "QUAD";
+    } else if (lines == 3) {
         text = "TRIPLE";
     } else if (lines == 2) {
         text = "DOUBLE";
     } else if (lines == 1) {
         text = "SINGLE";
     }
-    clearLinesText = createText(renderer, x, y, 104, 30, text, normalColor, fontRegular40);
+    SDL_Color newColor = normalColor;
+    newColor.a = normalColor.a * (clearLinesTextDuration - currentClearLinesTextFrame) / clearLinesTextDuration;
+    clearLinesText = createText(renderer, x, y, 104, 30, text, newColor, fontRegular40);
     renderTextRight(renderer, clearLinesText);
 }
 #endif

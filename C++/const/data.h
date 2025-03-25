@@ -138,7 +138,7 @@ int nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 int nextMirrorTime = max(300ull, rng() % 720 + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
 // clearLinesText duration
-const int clearLinesTextDuration = FPS * 4;
+const int clearLinesTextDuration = FPS * 3 / 2;
 int currentClearLinesTextFrame = 0;
 
 void resetAllGameState() {

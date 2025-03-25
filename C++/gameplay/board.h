@@ -26,7 +26,6 @@ void initializeBoard(int row, int col, int queueSize) {
 void repaintBoard() {
 	SDL_FRect rect = {0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT};
 	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND); 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
 	SDL_RenderFillRect(renderer, &rect);
 	for (int j = 0; j < ROW + 10; j++) {
