@@ -13,9 +13,10 @@ void reloadBatch() {
 	if (currentQueue.size() > QUEUE_SIZE) return;
 	newBatch.clear();
 	for (int i = maxPieceID + 1; i <= maxPieceID + 7; i++) newBatch.push_back(i);
-	for (int i = 0; i < 7; i++) {
-		for (int j = 0; j < i; j++) {
-			if (rng() & 1) swap(newBatch[i], newBatch[j]);
+	for (int i = 1; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			int x = rng() & 1ll;
+			if (x) swap(newBatch[i], newBatch[j]);
 		}
 	}
 	for (auto i: newBatch) {
