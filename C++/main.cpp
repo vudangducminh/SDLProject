@@ -42,10 +42,12 @@ void update() {
 		currentLevel = 1;
 		if (gameMode & HARD_ROCK_MODE) {
 			currentLevel += 4;
+			levelOffset -= 2;
 			COL = 12;
 		}
 		if (gameMode & DOUBLE_TIME_MODE) {
 			currentLevel += 20;
+			levelOffset -= 6;
 			ROW = 10;
 			BLOCK_SIZE = 60;
 		}
@@ -69,6 +71,10 @@ void update() {
 		linesCleared = clearLines();
 		updateClearLinesText(linesCleared);
 		totalLinesCleared += linesCleared;
+		// New level
+		if (totalLinesCleared >= linesPerLevel[currentLevel + levelOffset]) {
+			currentLevel++;
+		}
 		if (gameMode & FLASHLIGHT_MODE) {
 			if (totalLinesCleared >= 50) visualRadius = 4;
 			if (totalLinesCleared >= 100) visualRadius = 3;

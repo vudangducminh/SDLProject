@@ -45,7 +45,7 @@ void keyboardStateUpdate() {
             if (checkPiece(currentPiece, currentX - 1, currentY, currentD)) {
                 currentX--;
                 if (!firstLeftMovement) {
-                    currentLeftFrame = 10;
+                    currentLeftFrame = FPS / 10;
                     firstLeftMovement = true;
                 }
                 else currentLeftFrame = 3;
@@ -62,7 +62,7 @@ void keyboardStateUpdate() {
             if (checkPiece(currentPiece, currentX + 1, currentY, currentD)) {
                 currentX++;
                 if (!firstRightMovement) {
-                    currentRightFrame = 10;   
+                    currentRightFrame = FPS / 10;   
                     firstRightMovement = true;
                 }
                 else currentRightFrame = 3;
@@ -184,7 +184,7 @@ void keyboardStateUpdate() {
             isHoldingPieceAccessible = false;
             removePiece(currentPiece, currentX, currentY, currentD);
             currentX = 4, currentY = -1, currentD = 0; 
-            isMoved = 30; spawnTime = FPS / 10;
+            isMoved = 30; spawnTime = FPS / FPS / 10;
             if (!holdingPiece) {
                 holdingPiece = currentPiece;
                 currentPiece = currentQueue.front(); currentQueue.pop_front();

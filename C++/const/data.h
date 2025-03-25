@@ -27,7 +27,7 @@ int COL = 10;
 int QUEUE_SIZE = 5;
 
 // Settings
-const int FPS = 60;
+const int FPS = 150;
 const int MAX_SCREEN_WIDTH = 1440;
 const int MAX_SCREEN_HEIGHT = 864;
 float BLOCK_SIZE = 36;
@@ -97,14 +97,24 @@ const int FLASHLIGHT_MODE = 32;
 const int CHEESE_MODE = 64;
 const int MIRROR_MODE = 128;
 
-int droppingSpeed[31], maxDropDelay[31];
+int droppingSpeed[31], maxDropDelay[31], linesPerLevel[31];
 
 void initializeDroppingSpeed() {
     droppingSpeed[0] = DEFAULT_DROPPING_SPEED + 1;
     maxDropDelay[0] = DEFAULT_DROPPING_SPEED + 1;
-    for (int i = 1; i <= 5; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 3;
-    for (int i = 6; i <= 25; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 2;
-    for (int i = 26; i <= 30; i++) droppingSpeed[i] = droppingSpeed[i - 1] - 1;
+    for (int i = 1; i <= 5; i++) {
+        droppingSpeed[i] = droppingSpeed[i - 1] - 10;
+        linesPerLevel[i] = linesPerLevel[i - 1] + max(4, i);
+    }
+    for (int i = 6; i <= 25; i++) {
+        droppingSpeed[i] = droppingSpeed[i - 1] - 4;
+        linesPerLevel[i] = linesPerLevel[i - 1] + min(10, i);
+    }
+    for (int i = 26; i <= 30; i++) {
+        droppingSpeed[i] = droppingSpeed[i - 1] - 3;
+        linesPerLevel[i] = linesPerLevel[i - 1] + 30;
+    }
+    linesPerLevel[30] = (1 << 20);
     for (int i = 1; i <= 30; i++) maxDropDelay[i] = max(FPS, min(droppingSpeed[i] * 30, DEFAULT_MAX_DROP_DELAY));
 }
 // Game state
@@ -124,6 +134,9 @@ int totalLinesCleared = 0, linesCleared = 0;
 int currentScore = 0, currentLevel = 1;
 bool isHardDropping = false, firstLeftMovement = false, firstRightMovement = false, isHoldingPieceAccessible = true, isInitialized = false, isPlaying = false;
 double curGameTime = 0, startGameTime = 0;
+
+// For dt & hr mods
+int levelOffset = 0;
 
 // Current piece index
 int currentPiece = -1, currentX = 4, currentY = -1, currentD = 0;
@@ -178,6 +191,9 @@ void resetAll() {
     resetAllGameState();
     isPlaying = false;
     gameMode = 0;
+
+    // For dt & hr mods
+    levelOffset = 0;
 }
 
 #endif
