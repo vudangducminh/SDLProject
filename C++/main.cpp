@@ -47,7 +47,7 @@ void update() {
 		}
 		if (gameMode & DOUBLE_TIME_MODE) {
 			currentLevel += 20;
-			levelOffset -= 6;
+			levelOffset -= 9;
 			ROW = 10;
 			BLOCK_SIZE = 60;
 		}
@@ -60,7 +60,7 @@ void update() {
 	if (currentPiece == -1) {
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
 		currentX = 4, currentY = -1, currentD = 0; 
-		isMoved = 30; spawnTime = FPS / 10;
+		isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / 10;
 	}
 	keyboardStateUpdate();
 	if (gameOver) {
@@ -74,6 +74,7 @@ void update() {
 		// New level
 		if (totalLinesCleared >= linesPerLevel[currentLevel + levelOffset]) {
 			currentLevel++;
+			if (currentLevel == 30) levelOffset = 0;
 		}
 		if (gameMode & FLASHLIGHT_MODE) {
 			if (totalLinesCleared >= 50) visualRadius = 4;
@@ -84,7 +85,7 @@ void update() {
 		numberOfPiece++;
 		currentPiece = currentQueue.front(); currentQueue.pop_front();
 		currentX = 4, currentY = -1, currentD = 0;
-		isMoved = 30; spawnTime = FPS / 10; isHoldingPieceAccessible = true;
+		isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / 10; isHoldingPieceAccessible = true;
 		if (!checkPiece(currentPiece, currentX, currentY, currentD)) {
 			gameOver = true;
 			return;
@@ -112,7 +113,7 @@ void update() {
 		currentMirrorFrame++;
 		if (currentMirrorFrame == nextMirrorTime) {
 			currentMirrorFrame = 0;
-			nextMirrorTime = max(300ull, rng() % 720 + 1);
+			nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 12) + 1);
 			reverseBoardTimes++;
 		}
 	}

@@ -34,17 +34,27 @@ void renderLevel() {
 
 void renderLinesCleared() {
     char* linesClearedToText = "";
-	int tmp = totalLinesCleared;
-	while (tmp) {
-		char* ch = char_to_char_ptr((char) (tmp % 10 + 48));
+	
+	int linesNeed = linesPerLevel[currentLevel + levelOffset];
+	while (linesNeed) {
+		char* ch = char_to_char_ptr((char) (linesNeed % 10 + 48));
 		linesClearedToText = concatenate_strings(ch, linesClearedToText);
-		tmp /= 10;
+		linesNeed /= 10;
 	}
-	int len = strlen(linesClearedToText);
-	if (!len) {
-		linesClearedToText = "0";
-		len = 1;
+
+	linesClearedToText = concatenate_strings(" / ", linesClearedToText);
+
+	int tmp = totalLinesCleared;
+	if (!tmp) {
+		linesClearedToText = concatenate_strings("0", linesClearedToText);
+	} else {
+		while (tmp) {
+			char* ch = char_to_char_ptr((char) (tmp % 10 + 48));
+			linesClearedToText = concatenate_strings(ch, linesClearedToText);
+			tmp /= 10;
+		}
 	}
+
     int x = boardCoordinateX - 100;
     int y = boardCoordinateY + ROW * BLOCK_SIZE - 100;
     Text* lines = createText(renderer, x, y, 100, 30, "LINES", normalColor, fontBold22);

@@ -103,7 +103,7 @@ void initializeDroppingSpeed() {
     droppingSpeed[0] = DEFAULT_DROPPING_SPEED + 1;
     maxDropDelay[0] = DEFAULT_DROPPING_SPEED + 1;
     for (int i = 1; i <= 5; i++) {
-        droppingSpeed[i] = droppingSpeed[i - 1] - 10;
+        droppingSpeed[i] = droppingSpeed[i - 1] - 12;
         linesPerLevel[i] = linesPerLevel[i - 1] + max(4, i);
     }
     for (int i = 6; i <= 25; i++) {
@@ -111,7 +111,7 @@ void initializeDroppingSpeed() {
         linesPerLevel[i] = linesPerLevel[i - 1] + min(10, i);
     }
     for (int i = 26; i <= 30; i++) {
-        droppingSpeed[i] = droppingSpeed[i - 1] - 3;
+        droppingSpeed[i] = droppingSpeed[i - 1] - 2;
         linesPerLevel[i] = linesPerLevel[i - 1] + 30;
     }
     linesPerLevel[30] = (1 << 20);
@@ -148,7 +148,7 @@ int visualRadius = 5;
 int nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
 // For mirror mode
-int nextMirrorTime = max(300ull, rng() % 720 + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+int nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
 // clearLinesText duration
 const int clearLinesTextDuration = FPS * 3 / 2;
@@ -181,7 +181,7 @@ void resetAllGameState() {
     nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
     // For mirror mode
-    nextMirrorTime = max(300ull, rng() % 720 + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+    nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
     // clearLinesText duration
     currentClearLinesTextFrame = 0;

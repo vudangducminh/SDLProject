@@ -19,8 +19,7 @@ void keyboardStateUpdate() {
     if (currentLeftFrame) currentLeftFrame--;
     if (currentRightFrame) currentRightFrame--;
     const _Bool *keyboardStateUpdate = SDL_GetKeyboardState(NULL);
-    // R for retry
-    // Esc for escape (back to the menu)
+
     if (keyboardStateUpdate[retryKey]) {
         if (!currentRetryFrame && isPlaying) {
             resetAllGameState();
@@ -28,6 +27,7 @@ void keyboardStateUpdate() {
         }
     } 
     else currentRetryFrame = 0;
+
     if (keyboardStateUpdate[escapeKey]) {
         if (!currentEscapeFrame && isPlaying) {
             resetAll();
@@ -35,9 +35,11 @@ void keyboardStateUpdate() {
         }
     } 
     else currentEscapeFrame = 0;
+
     if (gameOver) {
         return;
     }
+
     if (keyboardStateUpdate[moveLeftKey]) {
         isMoved = MOVING_DETECTION_BY_FRAME;
         if (!currentLeftFrame) {
@@ -184,7 +186,7 @@ void keyboardStateUpdate() {
             isHoldingPieceAccessible = false;
             removePiece(currentPiece, currentX, currentY, currentD);
             currentX = 4, currentY = -1, currentD = 0; 
-            isMoved = 30; spawnTime = FPS / FPS / 10;
+            isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / FPS / 10;
             if (!holdingPiece) {
                 holdingPiece = currentPiece;
                 currentPiece = currentQueue.front(); currentQueue.pop_front();
