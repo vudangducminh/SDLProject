@@ -26,8 +26,8 @@ void renderLevel() {
 	}
     int x = boardCoordinateX - 100;
     int y = boardCoordinateY + ROW * BLOCK_SIZE - 200;
-    Text* level = createText(renderer, x, y, 100, 30, "LEVEL", normalColor, fontBold22);
-	levelText = createText(renderer, x, y + 30, 80, 30, levelToText, normalColor, fontBold28);
+    Text* level = createText(renderer, x, y, 100, 30, "LEVEL", statTextColor, fontBold22);
+	levelText = createText(renderer, x, y + 30, 80, 30, levelToText, statTextColor, fontBold28);
 	renderTextCenter(renderer, level);
 	renderTextRight(renderer, levelText);
 }
@@ -57,8 +57,8 @@ void renderLinesCleared() {
 
     int x = boardCoordinateX - 100;
     int y = boardCoordinateY + ROW * BLOCK_SIZE - 100;
-    Text* lines = createText(renderer, x, y, 100, 30, "LINES", normalColor, fontBold22);
-	linesClearedText = createText(renderer, x, y + 30, 80, 30, linesClearedToText, normalColor, fontBold28);
+    Text* lines = createText(renderer, x, y, 100, 30, "LINES", statTextColor, fontBold22);
+	linesClearedText = createText(renderer, x, y + 30, 80, 30, linesClearedToText, statTextColor, fontBold28);
 	renderTextCenter(renderer, lines);
 	renderTextRight(renderer, linesClearedText);
 }
@@ -79,7 +79,7 @@ void renderScore() {
 	scoreToText = concatenate_strings("SCORE: ", scoreToText);
     int x = (MAX_SCREEN_WIDTH - 240) / 2;
     int y = boardCoordinateY + ROW * BLOCK_SIZE;
-	scoreText = createText(renderer, x, y, 240, 40, scoreToText, normalColor, fontBold22);
+	scoreText = createText(renderer, x, y, 240, 40, scoreToText, statTextColor, fontBold22);
 	renderTextCenter(renderer, scoreText);
 }
 

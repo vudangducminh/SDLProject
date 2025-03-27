@@ -36,6 +36,7 @@ Text* clearLinesText;
 SDL_Color normalColor = {200, 200, 200, 255};
 SDL_Color hoverColor = {255, 255, 255, 255};
 SDL_Color textColor = {0, 0, 0, 255};
+SDL_Color statTextColor = {255, 255, 255, 255};
 
 // Fonts
 TTF_Font* fontRegular40;
