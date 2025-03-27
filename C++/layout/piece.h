@@ -16,7 +16,7 @@ void initializeColor() {
     COLOR[PIECE_S] = {0, 255, 0, 255};
     COLOR[PIECE_Z] = {255, 0, 0, 255};
     COLOR[PIECE_I] = {0, 255, 255, 255};
-    COLOR[SHADOW_PIECE] = {178, 178, 178, 58}; 
+    COLOR[SHADOW_PIECE] = {178, 178, 178, 88}; 
     COLOR[BLIND_COLOR] = {128, 128, 128, 204};
     COLOR[GARBAGE] = {178, 178, 178, 255};
 }

@@ -24,10 +24,15 @@ void initializeBoard(int row, int col, int queueSize) {
 
 
 void repaintBoard() {
-	SDL_FRect rect = {0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT};
 	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
+	// Draw background
+	SDL_RenderTexture(renderer, backgroundImage, NULL, NULL);
+	
+	// Draw board
+	SDL_FRect rect = {boardCoordinateX, boardCoordinateY, COL * BLOCK_SIZE, ROW * BLOCK_SIZE};
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &rect);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
 	for (int j = 0; j < ROW + 10; j++) {
 		for (int i = 0; i < COL; i++) {
 			int dist = (j - 10 - currentY) * (j - 10 - currentY) + (i - currentX) * (i - currentX);

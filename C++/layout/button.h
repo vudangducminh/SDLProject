@@ -85,8 +85,7 @@ void handleClickedEvent(Button* button) {
         gameMode ^= MIRROR_MODE;
     }
     if ((string) button->text == "Play!") {
-        if (gameMode) isPlaying = true;
-        else isPlaying = false;
+        isPlaying = true;
     }
 }
 

@@ -125,8 +125,9 @@ void update() {
 void repaint() {
 	if (!isPlaying) {
 		// Set home screen (button & stuff)
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+		// Draw background 
+		SDL_RenderTexture(renderer, backgroundImage, NULL, NULL);
         renderButton(renderer, classicModeButton);
         renderButton(renderer, chaosButton);
         renderButton(renderer, hiddenButton);
@@ -209,6 +210,12 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
         std::cerr << "SDL_ttf Init Failed: " << std::endl;
         SDL_Quit();
 		return SDL_APP_FAILURE;
+    }
+
+	backgroundImage = IMG_LoadTexture(renderer, "C++/image/tetris-background.png");
+	if (!backgroundImage) {
+        std::cerr << "Failed to load image: " << SDL_GetError() << std::endl;
+        return SDL_APP_FAILURE;
     }
 
 	fontRegular40 = TTF_OpenFont("C++/Fonts/Commissioner-Regular.ttf", 40);

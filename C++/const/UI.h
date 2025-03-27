@@ -13,6 +13,7 @@ using namespace std;
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* playerTexture;
+SDL_Texture* backgroundImage;
 SDL_Event event;
 
 // Button & text
