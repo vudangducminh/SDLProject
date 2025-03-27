@@ -88,4 +88,11 @@ void renderScore() {
 	destroyText(scoreText);
 }
 
+void renderGameOver() {
+	if (!gameOver) return;
+	gameOverText = createText(renderer, 0, 0, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT, "GAME OVER", gameOverTextColor, fontBold120);
+	renderTextCenter(renderer, gameOverText);
+	destroyText(gameOverText);
+}
+
 #endif

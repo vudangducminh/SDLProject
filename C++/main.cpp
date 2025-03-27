@@ -149,6 +149,7 @@ void repaint() {
 	renderLinesCleared();
 	renderLevel();
 	renderClearLinesText(linesCleared);
+	renderGameOver();
     SDL_RenderPresent(renderer); 
 }
 
@@ -223,11 +224,18 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
     }
 
+	fontBold120 = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 120);
+	if (!fontBold120) {
+		SDL_Log("Error loading font: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+    }
+
 	fontBold28 = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 28);
 	if (!fontBold28) {
 		SDL_Log("Error loading font: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
     }
+
 	fontBold22 = TTF_OpenFont("C++/Fonts/Commissioner-Bold.ttf", 22);
 	if (!fontBold22) {
 		SDL_Log("Error loading font: %s", SDL_GetError());
