@@ -49,7 +49,7 @@ void repaintQueue() {
 	SDL_RenderFillRect(renderer, &rect);
 
 	vector<int> tmp;
-	for (int i = 1; i <= 5; i++) {
+	for (int i = 1; i <= QUEUE_SIZE; i++) {
 		int piece = currentQueue.front(); 
 		currentQueue.pop_front();
 		tmp.push_back(piece);

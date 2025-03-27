@@ -39,11 +39,11 @@ void update() {
 	curGameTime = curPaintTime;
 	if (!isInitialized) {
 		isInitialized = true;
-		currentLevel = 1;
 		if (gameMode & HARD_ROCK_MODE) {
 			currentLevel += 4;
 			levelOffset -= 2;
 			COL = 12;
+			QUEUE_SIZE -= 2;
 		}
 		if (gameMode & DOUBLE_TIME_MODE) {
 			currentLevel += 20;
@@ -173,7 +173,6 @@ SDL_AppResult SDL_AppIterate(void *appState) {
 	update();
 	repaint();
 	clock_t duration = clock() - curPaintTime;
-	// cout << duration << "\n";
 	nextPaintTime = curPaintTime + 1000 / FPS;
 	// Sleep for 1e6 / FPS microseconds
 	usleep(max((double) 0, 1e6 / FPS - duration / CLOCKS_PER_SEC / CLOCKS_PER_SEC));

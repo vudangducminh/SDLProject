@@ -29,7 +29,7 @@ void repaintBoard() {
 	SDL_RenderTexture(renderer, backgroundImage, NULL, NULL);
 	
 	// Draw board
-	SDL_FRect rect = {boardCoordinateX, boardCoordinateY, COL * BLOCK_SIZE, ROW * BLOCK_SIZE};
+	SDL_FRect rect = {boardCoordinateX - 256, 0, COL * BLOCK_SIZE + 512, MAX_SCREEN_HEIGHT};
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &rect);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);

@@ -43,14 +43,14 @@ void keyboardStateUpdate() {
     if (keyboardStateUpdate[moveLeftKey]) {
         isMoved = MOVING_DETECTION_BY_FRAME;
         if (!currentLeftFrame) {
+            if (!firstLeftMovement) {
+                currentLeftFrame = FPS / 15;
+                firstLeftMovement = true;
+            }
+            else currentLeftFrame = 3;
             removePiece(currentPiece, currentX, currentY, currentD);
             if (checkPiece(currentPiece, currentX - 1, currentY, currentD)) {
                 currentX--;
-                if (!firstLeftMovement) {
-                    currentLeftFrame = FPS / 10;
-                    firstLeftMovement = true;
-                }
-                else currentLeftFrame = 3;
             }
             fillPiece(currentPiece, currentX, currentY, currentD);
         }
@@ -60,14 +60,14 @@ void keyboardStateUpdate() {
     if (keyboardStateUpdate[moveRightKey]) {
         isMoved = MOVING_DETECTION_BY_FRAME;
         if (!currentRightFrame)  {
+            if (!firstRightMovement) {
+                currentRightFrame = FPS / 15;   
+                firstRightMovement = true;
+            }
+            else currentRightFrame = 3;
             removePiece(currentPiece, currentX, currentY, currentD);
             if (checkPiece(currentPiece, currentX + 1, currentY, currentD)) {
                 currentX++;
-                if (!firstRightMovement) {
-                    currentRightFrame = FPS / 10;   
-                    firstRightMovement = true;
-                }
-                else currentRightFrame = 3;
             }
             fillPiece(currentPiece, currentX, currentY, currentD);
         }
@@ -186,7 +186,7 @@ void keyboardStateUpdate() {
             isHoldingPieceAccessible = false;
             removePiece(currentPiece, currentX, currentY, currentD);
             currentX = 4, currentY = -1, currentD = 0; 
-            isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / FPS / 10;
+            isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / FPS / 15;
             if (!holdingPiece) {
                 holdingPiece = currentPiece;
                 currentPiece = currentQueue.front(); currentQueue.pop_front();

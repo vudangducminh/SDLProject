@@ -30,6 +30,8 @@ void renderLevel() {
 	levelText = createText(renderer, x, y + 30, 80, 30, levelToText, statTextColor, fontBold28);
 	renderTextCenter(renderer, level);
 	renderTextRight(renderer, levelText);
+	destroyText(level);
+	destroyText(levelText);
 }
 
 void renderLinesCleared() {
@@ -61,6 +63,8 @@ void renderLinesCleared() {
 	linesClearedText = createText(renderer, x, y + 30, 80, 30, linesClearedToText, statTextColor, fontBold28);
 	renderTextCenter(renderer, lines);
 	renderTextRight(renderer, linesClearedText);
+	destroyText(lines);
+	destroyText(linesClearedText);
 }
 
 void renderScore() {
@@ -81,6 +85,7 @@ void renderScore() {
     int y = boardCoordinateY + ROW * BLOCK_SIZE;
 	scoreText = createText(renderer, x, y, 240, 40, scoreToText, statTextColor, fontBold22);
 	renderTextCenter(renderer, scoreText);
+	destroyText(scoreText);
 }
 
 #endif
