@@ -192,6 +192,7 @@ void resetAllGameState() {
 void resetAll() {
     resetAllGameState();
     isPlaying = false;
+    ROW = 20; COL = 10;
     gameMode = 0;
 
     // For dt & hr mods
