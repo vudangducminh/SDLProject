@@ -160,6 +160,7 @@ void resetAllGameState() {
     isInitialized = false;
     levelOffset = 0;
     QUEUE_SIZE = 5;
+    BLOCK_SIZE = 36;
     newBatch.clear();
     currentQueue.clear();
     currentLeftFrame = 0, currentRightFrame = 0, currentClockwiseFrame = 0, currentCounterClockwiseFrame = 0, currentRotate180Frame = 0;

@@ -39,7 +39,6 @@ void update() {
 	curGameTime = curPaintTime;
 	if (!isInitialized) {
 		isInitialized = true;
-		BLOCK_SIZE = 36;
 		if (gameMode & HARD_ROCK_MODE) {
 			currentLevel += 4;
 			levelOffset -= 2;
