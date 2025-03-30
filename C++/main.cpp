@@ -188,7 +188,7 @@ SDL_AppResult SDL_AppInit(void **appState, int argc, char **argv) {
 		return SDL_APP_FAILURE;
 	}
 	window = SDL_CreateWindow(
-		"Tetris",
+		"Modern tetris",
 		MAX_SCREEN_WIDTH,
 		MAX_SCREEN_HEIGHT,
 		NULL

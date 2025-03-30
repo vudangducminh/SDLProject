@@ -7,20 +7,6 @@
 #include "../const/data.h"
 using namespace std;
 
-void initializeColor() {
-    COLOR[0] = {0, 0, 0, 255}; 
-    COLOR[PIECE_T] = {128, 0, 128, 255}; 
-    COLOR[PIECE_O] = {255, 255, 0, 255}; 
-    COLOR[PIECE_J] = {0, 0, 255, 255}; 
-    COLOR[PIECE_L] = {255, 140, 0, 255};
-    COLOR[PIECE_S] = {0, 255, 0, 255};
-    COLOR[PIECE_Z] = {255, 0, 0, 255};
-    COLOR[PIECE_I] = {0, 255, 255, 255};
-    COLOR[SHADOW_PIECE] = {178, 178, 178, 88}; 
-    COLOR[BLIND_COLOR] = {128, 128, 128, 204};
-    COLOR[GARBAGE] = {178, 178, 178, 255};
-}
-
 bool isOccupied(int x, int y) {
     return state[x][y] != 0 && state[x][y] != SHADOW_PIECE;
 }
