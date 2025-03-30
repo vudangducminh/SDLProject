@@ -53,7 +53,8 @@ void update() {
 		}
 		initializeBoard(ROW, COL, QUEUE_SIZE);
 		cap = droppingSpeed[currentLevel];
-		startGameTime = curPaintTime;
+		startGameTime = clock();
+		curGameTime = startGameTime;
 	}
 	
 	reloadBatch();
@@ -148,6 +149,7 @@ void repaint() {
 	renderScore();
 	renderLinesCleared();
 	renderLevel();
+	renderTime();
 	renderClearLinesText(linesCleared);
 	renderGameOver();
     SDL_RenderPresent(renderer); 

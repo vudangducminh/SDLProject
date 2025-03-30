@@ -27,7 +27,7 @@ int COL = 10;
 int QUEUE_SIZE = 5;
 
 // Settings
-const int FPS = 150;
+const int FPS = 120;
 const int MAX_SCREEN_WIDTH = 1440;
 const int MAX_SCREEN_HEIGHT = 864;
 float BLOCK_SIZE = 36;

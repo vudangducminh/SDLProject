@@ -31,6 +31,7 @@ Text* scoreText;
 Text* linesClearedText;
 Text* levelText;
 Text* clearLinesText;
+Text* timeText;
 Text* gameOverText;
 
 // Button color
