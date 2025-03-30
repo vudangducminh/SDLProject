@@ -117,11 +117,11 @@ void initializeDroppingSpeed() {
     droppingSpeed[0] = DEFAULT_DROPPING_SPEED + 1;
     maxDropDelay[0] = DEFAULT_DROPPING_SPEED + 1;
     for (int i = 1; i <= 5; i++) {
-        droppingSpeed[i] = droppingSpeed[i - 1] - 12;
+        droppingSpeed[i] = droppingSpeed[i - 1] - 10;
         linesPerLevel[i] = linesPerLevel[i - 1] + max(4, i);
     }
     for (int i = 6; i <= 25; i++) {
-        droppingSpeed[i] = droppingSpeed[i - 1] - 4;
+        droppingSpeed[i] = droppingSpeed[i - 1] - 3;
         linesPerLevel[i] = linesPerLevel[i - 1] + min(10, i);
     }
     for (int i = 26; i <= 30; i++) {
