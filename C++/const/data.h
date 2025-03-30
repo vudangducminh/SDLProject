@@ -162,7 +162,7 @@ int visualRadius = 5;
 int nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
 // For mirror mode
-int nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+int nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 10) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
 // clearLinesText duration
 const int clearLinesTextDuration = FPS * 3 / 2;
@@ -198,7 +198,7 @@ void resetAllGameState() {
     nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
     // For mirror mode
-    nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+    nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 10) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
     // clearLinesText duration
     currentClearLinesTextFrame = 0;

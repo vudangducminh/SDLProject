@@ -114,7 +114,7 @@ void update() {
 		currentMirrorFrame++;
 		if (currentMirrorFrame == nextMirrorTime) {
 			currentMirrorFrame = 0;
-			nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 12) + 1);
+			nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 10) + 1);
 			reverseBoardTimes++;
 		}
 	}
@@ -159,7 +159,12 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
 	if (event->type == SDL_EVENT_QUIT) {
 		return SDL_APP_SUCCESS;
 	}
-            
+    
+	// Disable button function while playing
+	if (isPlaying) {
+		return SDL_APP_CONTINUE;
+	}
+
 	handleButtonEvent(classicModeButton, event);
 	handleButtonEvent(chaosButton, event);
 	handleButtonEvent(hiddenButton, event);
