@@ -80,9 +80,9 @@ void update() {
 			if (currentLevel == 30) levelOffset = 0;
 		}
 		if (gameMode & FLASHLIGHT_MODE) {
-			if (totalLinesCleared >= 50) visualRadius = 4;
-			if (totalLinesCleared >= 100) visualRadius = 3;
-			if (totalLinesCleared >= 150) visualRadius = 2;
+			if (totalLinesCleared >= 20) visualRadius = 4;
+			if (totalLinesCleared >= 40) visualRadius = 3;
+			if (totalLinesCleared >= 60) visualRadius = 2;
 		}
 		currentScore += calculateScore(linesCleared);
 		numberOfPiece++;
@@ -104,7 +104,7 @@ void update() {
 			int numLines = randNum > 80 ? 2 : 1;
 			if (addCheese(numLines)) {
 				currentCheeseLines = 0;
-				nextCheeseLines = max(FPS / 3, nextCheeseLines - 1);
+				nextCheeseLines = max(FPS / 3, nextCheeseLines - 10);
 			} else {
 				gameOver = true;
 			}
