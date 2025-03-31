@@ -36,13 +36,15 @@ int clearLines() {
     return lines;
 }
 
-void updateClearLinesText (int lines) {
+void updateClearLinesText(int lines) {
     if (!lines) return;
     currentClearLinesTextFrame = 0;
 }
 void renderClearLinesText(int lines) {
     if (currentClearLinesTextFrame == clearLinesTextDuration) {
-        clearLinesText->text = " ";
+        if (clearLinesText != NULL) {
+            clearLinesText->text = " ";
+        }
         return;
     }
     int x = boardCoordinateX - 140;

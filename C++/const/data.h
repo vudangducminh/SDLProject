@@ -167,7 +167,7 @@ int nextMirrorTime = max(FPS * 6ull, rng() % (FPS * 12) + 1), currentMirrorFrame
 
 // clearLinesText duration
 const int clearLinesTextDuration = FPS * 3 / 2;
-int currentClearLinesTextFrame = 0;
+int currentClearLinesTextFrame = clearLinesTextDuration;
 
 void resetAllGameState() {
     memset(state, 0, sizeof(state));
@@ -202,7 +202,7 @@ void resetAllGameState() {
     nextMirrorTime = max(FPS * 6ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
     // clearLinesText duration
-    currentClearLinesTextFrame = 0;
+    currentClearLinesTextFrame = clearLinesTextDuration;
 }
 
 void resetAll() {
