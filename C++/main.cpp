@@ -23,6 +23,16 @@ using namespace std;
 void SDL_AppQuit(void *appState, SDL_AppResult appResult) {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	destroyButton(classicModeButton);
+	destroyButton(chaosButton);
+	destroyButton(hiddenButton);
+	destroyButton(hardRockButton);
+	destroyButton(doubleTimeButton);
+	destroyButton(flashlightButton);
+	destroyButton(cheeseButton);
+	destroyButton(mirrorButton);
+	destroyButton(playButton);
+	destroyText(clearLinesText);
 	window = NULL;
 	renderer = NULL;
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
