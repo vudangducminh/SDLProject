@@ -27,7 +27,7 @@ int COL = 10;
 int QUEUE_SIZE = 5;
 
 // Settings
-const int FPS = 120;
+const int FPS = 100;
 const int MAX_SCREEN_WIDTH = 1440;
 const int MAX_SCREEN_HEIGHT = 864;
 float BLOCK_SIZE = 36;
@@ -52,6 +52,7 @@ const int PIECE_J = 1;
 const int DEFAULT_MAX_DROP_DELAY = FPS * 5;
 const int MOVING_DETECTION_BY_FRAME = FPS / 2;
 const int DEFAULT_DROPPING_SPEED = FPS;
+const int MOVING_SPEED = 4;
 
 // Wall Kick Data
 const pair<int, int> wallKickOthers[][5] = {
@@ -117,7 +118,7 @@ void initializeDroppingSpeed() {
     droppingSpeed[0] = DEFAULT_DROPPING_SPEED + 1;
     maxDropDelay[0] = DEFAULT_DROPPING_SPEED + 1;
     for (int i = 1; i <= 5; i++) {
-        droppingSpeed[i] = droppingSpeed[i - 1] - 10;
+        droppingSpeed[i] = droppingSpeed[i - 1] - 6;
         linesPerLevel[i] = linesPerLevel[i - 1] + max(4, i);
     }
     for (int i = 6; i <= 25; i++) {
@@ -162,7 +163,7 @@ int visualRadius = 5;
 int nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
 // For mirror mode
-int nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 10) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+int nextMirrorTime = max(FPS * 6ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
 // clearLinesText duration
 const int clearLinesTextDuration = FPS * 3 / 2;
@@ -198,7 +199,7 @@ void resetAllGameState() {
     nextCheeseLines = FPS * 4, currentCheeseLines = 0;
 
     // For mirror mode
-    nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 10) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
+    nextMirrorTime = max(FPS * 6ull, rng() % (FPS * 12) + 1), currentMirrorFrame = 0, reverseBoardTimes = 0;
 
     // clearLinesText duration
     currentClearLinesTextFrame = 0;

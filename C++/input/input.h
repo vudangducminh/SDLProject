@@ -44,10 +44,10 @@ void keyboardStateUpdate() {
         isMoved = MOVING_DETECTION_BY_FRAME;
         if (!currentLeftFrame) {
             if (!firstLeftMovement) {
-                currentLeftFrame = FPS / 12;
+                currentLeftFrame = FPS / 8;
                 firstLeftMovement = true;
             }
-            else currentLeftFrame = 3;
+            else currentLeftFrame = MOVING_SPEED;
             removePiece(currentPiece, currentX, currentY, currentD);
             if (checkPiece(currentPiece, currentX - 1, currentY, currentD)) {
                 currentX--;
@@ -61,10 +61,10 @@ void keyboardStateUpdate() {
         isMoved = MOVING_DETECTION_BY_FRAME;
         if (!currentRightFrame)  {
             if (!firstRightMovement) {
-                currentRightFrame = FPS / 12;   
+                currentRightFrame = FPS / 8;   
                 firstRightMovement = true;
             }
-            else currentRightFrame = 3;
+            else currentRightFrame = MOVING_SPEED;
             removePiece(currentPiece, currentX, currentY, currentD);
             if (checkPiece(currentPiece, currentX + 1, currentY, currentD)) {
                 currentX++;
@@ -186,7 +186,7 @@ void keyboardStateUpdate() {
             isHoldingPieceAccessible = false;
             removePiece(currentPiece, currentX, currentY, currentD);
             currentX = 4, currentY = -1, currentD = 0; 
-            isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / FPS / 12;
+            isMoved = MOVING_DETECTION_BY_FRAME; spawnTime = FPS / 10;
             if (!holdingPiece) {
                 holdingPiece = currentPiece;
                 currentPiece = currentQueue.front(); currentQueue.pop_front();

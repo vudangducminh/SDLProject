@@ -30,6 +30,8 @@ void SDL_AppQuit(void *appState, SDL_AppResult appResult) {
 
 double curPaintTime, nextPaintTime;
 
+// Check FPS
+int FPSCounter = 0, prevSec = -1;
 
 void update() {
 	curPaintTime = clock();
@@ -114,13 +116,22 @@ void update() {
 		currentMirrorFrame++;
 		if (currentMirrorFrame == nextMirrorTime) {
 			currentMirrorFrame = 0;
-			nextMirrorTime = max(FPS * 5ull, rng() % (FPS * 10) + 1);
+			nextMirrorTime = max(FPS * 6ull, rng() % (FPS * 12) + 1);
 			reverseBoardTimes++;
 		}
 	}
 
 	// Update clear-lines text
 	if (currentClearLinesTextFrame < clearLinesTextDuration) currentClearLinesTextFrame++; 
+
+	
+	// if ((int) curPaintTime / 1000 != prevSec) {
+	// 	prevSec = curPaintTime / 1000;
+	// 	cout << curPaintTime <<" "<< FPSCounter <<" "<< prevSec << "\n";
+	// 	cout << curPaintTime + CLOCKS_PER_SEC / FPS << "\n";
+	// 	FPSCounter = 0;
+	// }
+	// FPSCounter++;
 }
 
 void repaint() {
@@ -180,10 +191,9 @@ SDL_AppResult SDL_AppEvent(void *appState, SDL_Event *event) {
 SDL_AppResult SDL_AppIterate(void *appState) {
 	update();
 	repaint();
-	clock_t duration = clock() - curPaintTime;
-	nextPaintTime = curPaintTime + 1000 / FPS;
-	// Sleep for 1e6 / FPS microseconds
-	usleep(max((double) 0, 1e6 / FPS - duration / CLOCKS_PER_SEC / CLOCKS_PER_SEC));
+	nextPaintTime = curPaintTime + CLOCKS_PER_SEC / FPS;
+	// Units: microseconds
+	usleep(max((double) 0, nextPaintTime - clock()) * CLOCKS_PER_SEC);
 	return SDL_APP_CONTINUE;
 }
 
